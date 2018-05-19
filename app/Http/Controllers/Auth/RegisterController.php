@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Repositories\ActivityRepo;
+use App\Repositories\LocalityRepo;
+use App\Repositories\ProvinceRepo;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +26,10 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    protected $activityRepo;
+    protected $provinceRepo;
+    protected $localityRepo;
+
     /**
      * Where to redirect users after registration.
      *
@@ -35,9 +42,12 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ActivityRepo $activityRepo, ProvinceRepo $provinceRepo, LocalityRepo $localityRepo)
     {
         $this->middleware('guest');
+        $this->activityRepo = $activityRepo;
+        $this->provinceRepo = $provinceRepo;
+        $this->localityRepo = $localityRepo;
     }
 
     /**
@@ -68,5 +78,19 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        $activities = $this->activityRepo->all();
+        $activities = $activities['body'];
+
+        $provinces = $this->provinceRepo->all();
+        $provinces = $provinces['body'];
+
+        $localities = $this->localityRepo->all();
+        $localities = $localities['body'];
+
+        return view('auth.register', compact('activities', 'provinces', 'localities'));
     }
 }

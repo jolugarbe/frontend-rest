@@ -19,9 +19,9 @@ class AuthUserController extends Controller
         $result = $this->userRepo->register($request->all());
 
         if($result['status'] == 200){
-            return redirect('login')->with('success', 'User registered successfully.');
+            return redirect('login')->with('success', 'Empresa registrada correctamente. Hemos enviado los datos de acceso a su email.');
         }else{
-            return redirect()->back()->withInput()->with('error', 'An error occurred while trying to register the user.');
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al registrar su empresa. Disculpe las molestias.');
         }
     }
 

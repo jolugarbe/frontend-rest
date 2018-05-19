@@ -17,6 +17,12 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
+    <!-- Bootstrap SelectPicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
+    <!-- Bootstrap DateTimePicker -->
+    <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
+
     <style>
         body{
             font-family: Raleway,sans-serif !important;
@@ -103,8 +109,24 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <!-- JQUERY VALIDATE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+
+    <!-- Additional method for validate CIF/NIF with jQueryValidator -->
+    <script src="{{URL::to('js/plugins/jquery-validate/my-additional-methods.js')}}"></script>
+    <!-- Spanish messages for jQueryValidator -->
+    <script src="{{URL::to('js/plugins/jquery-validate/localization/messages_es.js')}}"></script>
+    <!-- END JQUERY VALIDATE -->
+
+    <!-- BOOTSTRAP SELECTPICKER -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+    <!-- DATETIMEPICKER -->
+    <script src="{{URL::to('js/plugins/datetimepicker/js/moment.min.js')}}"></script>
+    <script src="{{URL::to('js/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
 
     <script>
 
@@ -113,6 +135,7 @@
             $(".loader").fadeOut("slow");
         });
 
+        // jQuery Validate Default Settings
         jQuery.validator.setDefaults({
             debug: false,
             errorClass: 'is-invalid',

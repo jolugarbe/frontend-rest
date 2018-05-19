@@ -24,7 +24,7 @@ class GuzzleHttpRequest
     protected function get($url){
         $response = $this->client->request('GET', $url);
 
-        return ['status' => json_decode($response->reasonPhrase), 'body' => json_decode($response->getBody()->getContents())];
+        return ['status' => json_decode($response->getStatusCode()), 'body' => json_decode($response->getBody()->getContents(), true)];
     }
 
     protected function post($url, $data = false)
@@ -39,7 +39,7 @@ class GuzzleHttpRequest
             $response = $this->client->request('POST', $url);
         }
 
-        return ['status' => json_decode($response->getStatusCode()), 'body' => json_decode($response->getBody()->getContents())];
+        return ['status' => json_decode($response->getStatusCode()), 'body' => json_decode($response->getBody()->getContents(), true)];
 
     }
 
