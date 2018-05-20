@@ -13,7 +13,7 @@
 @if ($message = Session::get('success'))
 
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{{Lang::get('Success')}}</strong>
+        <strong>{{Lang::get('Correcto')}}</strong>
         @if(is_array($message))
             <ul>
                 @foreach ($message as $m)

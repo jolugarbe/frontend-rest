@@ -6,6 +6,7 @@ use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthUserController extends Controller
 {
@@ -49,18 +50,38 @@ class AuthUserController extends Controller
 
     public function postLogin(Request $request){
 
-        $result = $this->userRepo->login($request->all());
+        try{
+            $result = $this->userRepo->login($request->all());
 
-        if($result['status'] == 200){
-            // Convert body std object to array
-            $content = json_decode(json_encode($result['body']), true);
-            // Create a cookie and send to the browser
-            $cookie = cookie('frontendToken', $content['token'], 525600);
+            if($result['status'] == 200){
+                // Convert body std object to array
+                $content = json_decode(json_encode($result['body']), true);
+                // Create a cookie and send to the browser
+                $token = cookie('front_us_token', $content['token']);
+                $user_data = cookie('front_us_data', json_encode($content['user']));
 
+                return redirect()->to('home')->with('success', 'Bienvenido a Frontend.local')->withCookie($token)->withCookie($user_data);
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar iniciar sesión. Disculpe las molestias.');
+            }
 
-            return redirect()->to('home')->with('success', 'Welcome to Frontend.local')->withCookie($cookie);
-        }else{
-            return redirect()->back()->with('error', 'An error occurred while trying to login the user.');
+        }catch (ClientException $exception){
+
+            // Get the errors from the backend validation and return to the view.
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 401){
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->withInput()->with('error', 'No ha sido posible iniciar sesión por los siguientes motivos:')->with('validation_errors', $content['error']);
+            }else{
+                return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al iniciar sesión. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al iniciar sesión. Disculpe las molestias.');
         }
+
+    }
+
+    public function postLogout(Request $request){
+        return redirect('/')->withCookie(Cookie::forget('front_us_data'))->withCookie(Cookie::forget('front_us_token'));
     }
 }

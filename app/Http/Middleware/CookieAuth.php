@@ -15,11 +15,11 @@ class CookieAuth
      */
     public function handle($request, Closure $next)
     {
-        $token = \Request::cookie('frontendToken', null);
+        $token = \Request::cookie('front_us_token', null);
         if($token){
             return $next($request);
         }else{
-            return redirect()->to('login')->with('error', 'You need to login to access this page.');
+            return redirect()->to('login')->with('error', 'Necesitas iniciar sesión para acceder a esta página.');
         }
 
     }
