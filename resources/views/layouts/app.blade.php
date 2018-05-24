@@ -40,7 +40,7 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background: url('images/loader/loader.gif') center no-repeat #fff;
+            background: url('{{URL::to('images/loader/loader.gif')}}') center no-repeat #fff;
         }
 
     </style>
@@ -72,13 +72,14 @@
                             <li><a class="nav-link" href="{{ route('login') }}">{{ Lang::get('Acceder') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ Lang::get('Registrar') }}</a></li>
                         @else
-                            @php($auth_user = json_decode(Cookie::get('front_us_data')))
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ $auth_user->name }} <span class="caret"></span>
+                                    {{ isset($user) ? $user['name'] : 'Usuario' }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}"> {{ __('Panel de control') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

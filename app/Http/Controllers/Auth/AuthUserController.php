@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class AuthUserController extends Controller
 {
@@ -76,12 +77,15 @@ class AuthUserController extends Controller
                 return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al iniciar sesión. Disculpe las molestias.');
             }
         }catch (\Exception $exception){
+            Log::error($exception->getMessage());
             return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al iniciar sesión. Disculpe las molestias.');
         }
 
     }
 
     public function postLogout(Request $request){
+
+        $result = $this->userRepo->logout();
         return redirect('/')->withCookie(Cookie::forget('front_us_data'))->withCookie(Cookie::forget('front_us_token'));
     }
 }

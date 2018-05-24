@@ -30,4 +30,15 @@ class UserRepo extends GuzzleHttpRequest
         $response = $this->post('login', $data);
         return $response;
     }
+
+    public function logout(){
+
+        $response = $this->post('user/logout', false);
+        return $response;
+    }
+
+    public function profile(){
+        $response = $this->post('user/profile', false);
+        return $response;
+    }
 }

@@ -452,6 +452,22 @@
                 $('#locality').empty().append(options);
             });
 
+            $('#not_province').change(function () {
+
+                // Get array of the localities that belong to the selected province
+                var province_id = $(this).val();
+                var filter = jQuery.grep(localities, function( item ) {
+                    return item.province_id == province_id ;
+                });
+
+                var options = "<option value=''>Seleccione localidad</option>";
+                filter.forEach(function (locality) {
+                    options += "<option value='" +locality.id+"'>"+locality.name+"</option>";
+                });
+
+                $('#not_locality').empty().append(options);
+            });
+
             $('#notification_data').change(function () {
                 var checked = $(this).is(':checked');
 

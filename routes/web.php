@@ -19,7 +19,17 @@ Route::get('/', function () {
 Route::post('register-user', 'Auth\AuthUserController@postRegister');
 Route::post('login-user', 'Auth\AuthUserController@postLogin');
 Route::post('logout-user', 'Auth\AuthUserController@postLogout')->name('logout_user');
-Route::get('home', 'HomeController@index');
+
+Route::middleware(['cookie'])->group(function () {
+
+    Route::prefix('waste')->group(function () {
+        Route::get('create', 'WasteController@getCreateWaste');
+        Route::post('create', 'WasteController@postCreateWaste');
+    });
+
+});
+Route::get('home', 'HomeController@index')->name('home');
+
 
 Auth::routes();
 

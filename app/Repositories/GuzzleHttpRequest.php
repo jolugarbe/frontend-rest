@@ -27,16 +27,39 @@ class GuzzleHttpRequest
         return ['status' => json_decode($response->getStatusCode()), 'body' => json_decode($response->getBody()->getContents(), true)];
     }
 
-    protected function post($url, $data = false)
+    protected function post($url, $data = false, $token = null)
     {
+        $token = \Request::cookie('front_us_token', null);
+
         if($data)
         {
-            $response = $this->client->request('POST', $url, [
-                'form_params' => $data
-            ]);
+            if($token){
+                $response = $this->client->request('POST', $url, [
+                    'headers' =>
+                        [
+                            'Authorization' => "Bearer " . $token
+                        ],
+                    'form_params' => $data
+                ]);
+            }else{
+                $response = $this->client->request('POST', $url, [
+                    'form_params' => $data
+                ]);
+            }
+
 
         }else{
-            $response = $this->client->request('POST', $url);
+            if($token){
+                $response = $this->client->request('POST', $url, [
+                    'headers' =>
+                        [
+                            'Authorization' => "Bearer " . $token
+                        ]
+                ]);
+            }else{
+                $response = $this->client->request('POST', $url);
+            }
+
         }
 
         return ['status' => json_decode($response->getStatusCode()), 'body' => json_decode($response->getBody()->getContents(), true)];
