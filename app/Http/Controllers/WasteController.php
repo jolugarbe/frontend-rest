@@ -88,7 +88,113 @@ class WasteController extends Controller
         }
     }
 
-    public function getOwnWasteList(){
-        return view('site.waste.owner-list');
+    public function postUpdateWaste(Request $request){
+        try{
+            $result = $this->wasteRepo->update($request->all());
+
+            if($result['status'] == 200){
+                $content = json_decode(json_encode($result['body']), true);
+                return redirect('home')->with('success', $content['message']);
+            }else{
+                return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al actualizar el residuo. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+
+            // Get the errors from the backend validation and return to the view.
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 422){
+                $errors = array();
+                foreach (json_decode($response->getBody()->getContents(), true) as $items){
+                    foreach ($items as $item){
+                        array_push($errors, $item[0]);
+                    }
+                }
+                return redirect()->back()->withInput()->with('error', 'No ha sido posible actualizar el residuo por los siguientes motivos:')->with('validation_errors', $errors);
+            }else{
+                return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al actualizar el residuo. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al actualizar el residuo. Disculpe las molestias.');
+        }
+    }
+
+    public function getOffers(){
+        return view('site.waste.user-offers-list');
+    }
+
+    public function getAvailableList(){
+        return view('site.waste.available-list');
+    }
+
+    public function getTransfers(){
+        return view('site.waste.user-transfers-list');
+    }
+
+    public function getRequests(){
+        return view('site.waste.user-requests-list');
+    }
+
+    public function getUpdateWaste($waste_id){
+        try{
+            $result = $this->wasteRepo->wasteDataForUpdate(array('waste_id' => $waste_id));
+            if($result['status'] == 200){
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $types = $content['types'];
+                $frequencies = $content['frequencies'];
+                $provinces = $content['provinces'];
+                $localities = $content['localities'];
+                $waste = $content['waste'];
+                $address = $content['address'];
+                $locality = $content['locality'];
+
+                // Compruebo que el residuo sea del usuario
+                return view('site.waste/create-edit-waste', compact('ads', 'types', 'frequencies', 'provinces', 'localities', 'waste', 'address', 'locality'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar el residuo. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 403){
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->with('error', $content['exception']);
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar el residuo. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar el residuo. Disculpe las molestias.');
+
+        }
+
+    }
+
+    public function postOffersData(Request $request){
+        $response = $this->wasteRepo->userOffersWasteData($request->all());
+        $content = json_decode(json_encode($response['body']), true);
+        $data = json_encode($content);
+        return $data;
+    }
+
+    public function postAvailableData(Request $request){
+        $response = $this->wasteRepo->availableListData($request->all());
+        $content = json_decode(json_encode($response['body']), true);
+        $data = json_encode($content);
+        return $data;
+    }
+
+    public function postTransfersData(Request $request){
+        $response = $this->wasteRepo->userTransfersWasteData($request->all());
+        $content = json_decode(json_encode($response['body']), true);
+        $data = json_encode($content);
+        return $data;
+    }
+
+    public function postRequestsData(Request $request){
+        $response = $this->wasteRepo->userRequestsWasteData($request->all());
+        $content = json_decode(json_encode($response['body']), true);
+        $data = json_encode($content);
+        return $data;
     }
 }

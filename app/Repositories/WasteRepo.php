@@ -19,8 +19,19 @@ class WasteRepo extends GuzzleHttpRequest
         return $data;
     }
 
+    public function wasteDataForUpdate($data)
+    {
+        $response = $this->post('waste/update-data', $data);
+        return $response;
+    }
+
     public function register($data){
         $response = $this->post('waste/register', $data);
+        return $response;
+    }
+
+    public function update($data){
+        $response = $this->post('waste/update', $data);
         return $response;
     }
 //    public function all()
@@ -28,5 +39,30 @@ class WasteRepo extends GuzzleHttpRequest
 //        $provinces = $this->get('provinces/all');
 //        return $provinces;
 //    }
+
+    public function userOffersWasteData($data){
+        $response = $this->post('waste/user/offers-data', $data);
+        return $response;
+    }
+
+    public function availableListData($data){
+        $response = $this->post('waste/list/available-data', $data);
+        return $response;
+    }
+
+    public function wasteById($data){
+        $response = $this->post('waste/data-by-id', $data);
+        return $response;
+    }
+
+    public function userTransfersWasteData($data){
+        $response = $this->post('waste/user/transfers-data', $data);
+        return $response;
+    }
+
+    public function userRequestsWasteData($data){
+        $response = $this->post('waste/user/requests-data', $data);
+        return $response;
+    }
 
 }

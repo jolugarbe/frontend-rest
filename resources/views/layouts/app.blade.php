@@ -23,6 +23,9 @@
     <!-- Bootstrap DateTimePicker -->
     <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
 
+    <!-- Datatables -->
+    <link rel="stylesheet" href="{{URL::to('js/plugins/datatable/datatables.css')}}">
+
     <style>
         body{
             font-family: Raleway,sans-serif !important;
@@ -75,7 +78,7 @@
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ isset($user) ? $user['name'] : 'Usuario' }} <span class="caret"></span>
+                                    @if(Cookie::get('front_us_data')) {{Request::cookie('front_us_data', null)}} @else  Usuario @endif <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -130,6 +133,8 @@
     <script src="{{URL::to('js/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
 
+    <!-- DATATABLES -->
+    <script src="{{URL::to('js/plugins/datatable/datatables.js')}}"></script>
     <script>
 
         $(window).on('load',function() {

@@ -59,7 +59,8 @@ class AuthUserController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 // Create a cookie and send to the browser
                 $token = cookie('front_us_token', $content['token']);
-                $user_data = cookie('front_us_data', json_encode($content['user']));
+                $user = $content['user'];
+                $user_data = cookie('front_us_data', $user['name']);
 
                 return redirect()->to('home')->with('success', 'Bienvenido a Frontend.local')->withCookie($token)->withCookie($user_data);
             }else{

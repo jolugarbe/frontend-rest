@@ -23,8 +23,23 @@ Route::post('logout-user', 'Auth\AuthUserController@postLogout')->name('logout_u
 Route::middleware(['cookie'])->group(function () {
 
     Route::prefix('waste')->group(function () {
+
         Route::get('create', 'WasteController@getCreateWaste');
         Route::post('create', 'WasteController@postCreateWaste');
+        Route::post('update', 'WasteController@postUpdateWaste');
+        Route::get('update/{id}', 'WasteController@getUpdateWaste');
+        Route::get('available', 'WasteController@getAvailableList');
+        Route::post('available-data', 'WasteController@postAvailableData');
+
+        Route::prefix('user')->group(function () {
+            Route::get('offers', 'WasteController@getOffers');
+            Route::post('offers-data', 'WasteController@postOffersData');
+            Route::get('transfers', 'WasteController@getTransfers');
+            Route::post('transfers-data', 'WasteController@postTransfersData');
+            Route::get('requests', 'WasteController@getRequests');
+            Route::post('requests-data', 'WasteController@postRequestsData');
+        });
+
     });
 
 });

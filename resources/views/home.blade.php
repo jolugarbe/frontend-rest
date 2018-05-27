@@ -13,7 +13,8 @@
                             <div class="card-body text-center">
                                 <h1 class="card-title">{{$total_waste}}</h1>
                                 {{--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
-                                <a href="#" class="btn btn-info col-md-12">Consultar</a>
+                                <a href="{{URL::to('waste/user/offers')}}" class="btn btn-info col-md-12">Ofertados</a>
+                                <a href="{{URL::to('waste/available')}}" class="btn btn-info col-md-12">Disponibles</a>
                                 <a href="{{URL::to('waste/create')}}" class="btn btn-info col-md-12 mt-1">Crear</a>
                             </div>
                         </div>
@@ -25,7 +26,7 @@
                             <div class="card-body text-center">
                                 <h1 class="card-title">{{$total_transfers}}</h1>
                                 {{--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
-                                <a href="#" class="btn btn-info">Consultar</a>
+                                <a href="{{URL::to('waste/user/transfers')}}" class="btn btn-info">Consultar</a>
                             </div>
                         </div>
                     </div>
@@ -37,7 +38,7 @@
                             <div class="card-body text-center">
                                 <h1 class="card-title">{{$total_requests}}</h1>
                                 {{--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
-                                <a href="#" class="btn btn-info">Consultar</a>
+                                <a href="{{URL::to('waste/user/requests')}}" class="btn btn-info">Consultar</a>
                             </div>
                         </div>
                     </div>
