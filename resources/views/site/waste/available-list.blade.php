@@ -51,9 +51,12 @@
             return province_id = id;
         }
 
+        var available_table;
         $(document).ready(function () {
 
-            $('#waste_list').DataTable({
+
+
+            available_table  = $('#waste_list').DataTable({
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
@@ -71,7 +74,70 @@
                     { "data": "quantity" },
                     { "data": "composition" },
                     { "data": "action" },
-                ]
+                ],
+                "drawCallback": function( settings ) {
+                    $('.request-waste').click(function () {
+                        var waste_id = $(this).data('waste_id');
+                        swal({
+                            title: 'Solicitar',
+                            text: "¿Estás seguro de solicitar este residuo?",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.value) {
+                                $('.loader').fadeIn('slow');
+                            $.ajax({
+                                data: {"waste_id" : waste_id, "_token" : "{{csrf_token()}}" },
+                                type: "POST",
+                                dataType: "json",
+                                url: "{{URL::to('waste/request')}}",
+                                success: function(data) {
+                                    $('.loader').fadeOut('slow');
+                                    if(data.result == "success"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'success',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }else{
+                                        swal({
+                                            position: 'center',
+                                            type: 'error',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }
+
+                                    available_table.draw();
+
+                                },
+                                error: function() {
+                                    $('.loader').fadeOut('slow');
+                                    swal({
+                                        position: 'center',
+                                        type: 'error',
+                                        title: 'Se ha producido un error al tramitar la solicitud.',
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    });
+
+                                    available_table.draw();
+
+                                }
+                            });
+
+
+                        }
+                        });
+                    });
+                }
 
             });
 

@@ -197,4 +197,52 @@ class WasteController extends Controller
         $data = json_encode($content);
         return $data;
     }
+
+    public function postRequestWaste(Request $request){
+        try{
+            $response = $this->wasteRepo->requestWaste($request->all());
+            $content = json_decode(json_encode($response['body']), true);
+            $result = $content['message'];
+            return array('result' => 'success', 'message' => $result);
+        }catch (\Exception $exception){
+            return array('result' => 'error', 'message' => 'Se ha producido un error al tramitar la solicitud.');
+        }
+
+    }
+
+    public function getShowWaste($waste_id){
+        try{
+            $result = $this->wasteRepo->wasteDataForShow(array('waste_id' => $waste_id));
+            if($result['status'] == 200){
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $type = $content['type'];
+                $frequency = $content['frequency'];
+                $province = $content['province'];
+//                $localities = $content['localities'];
+                $waste = $content['waste'];
+                $address = $content['address'];
+                $locality = $content['locality'];
+                $show = true;
+
+                // Compruebo que el residuo sea del usuario
+                return view('site.waste/show-waste', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'show'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar el residuo. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 403){
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->with('error', $content['exception']);
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar el residuo. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar el residuo. Disculpe las molestias.');
+
+        }
+
+    }
 }

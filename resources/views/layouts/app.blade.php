@@ -135,6 +135,8 @@
 
     <!-- DATATABLES -->
     <script src="{{URL::to('js/plugins/datatable/datatables.js')}}"></script>
+
+    <script src="{{URL::to('js/plugins/sweetalert2/sweetalert2.js')}}"></script>
     <script>
 
         $(window).on('load',function() {
