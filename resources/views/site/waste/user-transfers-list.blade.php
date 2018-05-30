@@ -23,7 +23,7 @@
 
                     <div class="col-md-12">
 
-                        <table id="waste_list" class="w-100">
+                        <table id="waste_list" class="responsive w-100">
                             <thead>
                                 <tr>
                                     <th>{{__('Nombre')}}</th>
@@ -54,6 +54,7 @@
         $(document).ready(function () {
 
             $('#waste_list').DataTable({
+                responsive: true,
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },

@@ -245,4 +245,16 @@ class WasteController extends Controller
         }
 
     }
+
+    public function postDeleteWaste(Request $request){
+        try{
+            $response = $this->wasteRepo->deleteWaste($request->all());
+            $content = json_decode(json_encode($response['body']), true);
+            $result = $content['message'];
+            return array('result' => 'success', 'message' => $result);
+        }catch (\Exception $exception){
+            return array('result' => 'error', 'message' => 'Se ha producido un error al eliminar el residuo.');
+        }
+
+    }
 }

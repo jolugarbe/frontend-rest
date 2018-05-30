@@ -141,12 +141,37 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="email">{{ Lang::get('Email') }}</label>
+                                    <label for="email">{{ Lang::get('Email') }} <small>(Se utiliza para acceder a la plataforma)</small></label>
                                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="carbon_footprint">Inscrita en el Registro de Huella de Carbono</label>
+                                    <select class="form-control" data-live-search="true" id="carbon_footprint" name="carbon_footprint" required>
+                                        <option value="0">NO</option>
+                                        <option value="1">SÍ</option>
+                                    </select>
+                                    @if ($errors->has('carbon_footprint'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('carbon_footprint') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="carbon_inscription">{{ Lang::get('Fecha de inscripción') }}</label>
+                                    <input id="carbon_inscription" type="text" class="form-control{{ $errors->has('carbon_inscription') ? ' is-invalid' : '' }}" name="carbon_inscription" value="{{ old('carbon_inscription') }}" required disabled>
+                                    @if ($errors->has('carbon_inscription'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('carbon_inscription') }}</strong>
+                                        </span>
                                     @endif
                                 </div>
                             </div>
@@ -249,31 +274,6 @@
                                     </div>
                                 </div>
                             </fieldset>
-
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="carbon_footprint">Inscrita en el Registro de Huella de Carbono</label>
-                                    <select class="form-control" data-live-search="true" id="carbon_footprint" name="carbon_footprint" required>
-                                        <option value="0">NO</option>
-                                        <option value="1">SÍ</option>
-                                    </select>
-                                    @if ($errors->has('carbon_footprint'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('carbon_footprint') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="carbon_inscription">{{ Lang::get('Fecha de inscripción') }}</label>
-                                    <input id="carbon_inscription" type="text" class="form-control{{ $errors->has('carbon_inscription') ? ' is-invalid' : '' }}" name="carbon_inscription" value="{{ old('carbon_inscription') }}" required disabled>
-                                    @if ($errors->has('carbon_inscription'))
-                                        <span class="invalid-feedback">
-                                            <strong>{{ $errors->first('carbon_inscription') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
                             {{--<div class="form-group row">--}}
                                 {{--<label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>--}}
 

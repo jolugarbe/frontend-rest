@@ -76,4 +76,9 @@ class WasteRepo extends GuzzleHttpRequest
         return $response;
     }
 
+    public function deleteWaste($data){
+        $response = $this->post('waste/delete', $data);
+        return $response;
+    }
+
 }

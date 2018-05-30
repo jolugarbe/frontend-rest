@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $result = $this->userRepo->profile();
+        $result = $this->userRepo->profileHome();
         $result = json_decode(json_encode($result['body']), true);
         $user = $result['user'];
         $total_waste = $result['total_waste'];

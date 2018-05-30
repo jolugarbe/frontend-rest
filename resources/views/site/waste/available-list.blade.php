@@ -23,7 +23,7 @@
 
                     <div class="col-md-12">
 
-                        <table id="waste_list" class="w-100">
+                        <table id="waste_list" class="responsive w-100">
                             <thead>
                                 <tr>
                                     <th>{{__('Nombre')}}</th>

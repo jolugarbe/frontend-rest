@@ -37,8 +37,25 @@ class UserRepo extends GuzzleHttpRequest
         return $response;
     }
 
-    public function profile(){
-        $response = $this->post('user/profile', false);
+    public function profileHome(){
+        $response = $this->post('user/profile-home', false);
+        return $response;
+    }
+
+    public function profileData(){
+        $response = $this->post('user/profile-data', false);
+        return $response;
+    }
+
+    public function userDataForShow($data)
+    {
+        $response = $this->post('user/show', $data);
+        return $response;
+    }
+
+    public function update($data)
+    {
+        $response = $this->post('user/update', $data);
         return $response;
     }
 }

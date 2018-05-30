@@ -27,6 +27,7 @@ Route::middleware(['cookie'])->group(function () {
         Route::get('create', 'WasteController@getCreateWaste');
         Route::post('create', 'WasteController@postCreateWaste');
         Route::post('update', 'WasteController@postUpdateWaste');
+        Route::post('delete', 'WasteController@postDeleteWaste');
         Route::get('update/{id}', 'WasteController@getUpdateWaste');
         Route::get('available', 'WasteController@getAvailableList');
         Route::post('available-data', 'WasteController@postAvailableData');
@@ -42,6 +43,12 @@ Route::middleware(['cookie'])->group(function () {
             Route::post('requests-data', 'WasteController@postRequestsData');
         });
 
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::get('show/{id}', 'UserController@getShowUser');
+        Route::get('profile', 'UserController@getProfile');
+        Route::post('update', 'UserController@postUpdate');
     });
 
 });
