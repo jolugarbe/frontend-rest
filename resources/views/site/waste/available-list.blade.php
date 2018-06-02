@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
 @section('styles')
 <style>
@@ -19,6 +19,19 @@
 
                     <div class="col-md-12">
                         <h2>{{__('Residuos disponibles')}}</h2>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4>{{__('Filtros')}}</h4>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <label for="f_name">Nombre</label>
+                            <input id="f_name" type="text" name="f_name">
+                        </div>
+
                     </div>
 
                     <div class="col-md-12">
@@ -67,6 +80,7 @@
                     "type": "POST",
                     data: function(d){
                         d._token = "{{csrf_token()}}";
+                        d.f_name = $('#f_name').val();
                     }
                 },
                 columns: [
@@ -140,6 +154,13 @@
                 }
 
             });
+
+            // Apply the filter
+            $("#f_name").on( 'keyup change', function () {
+                delay(function(){
+                    available_table.draw();
+                }, 200 );
+            } );
 
         });
 

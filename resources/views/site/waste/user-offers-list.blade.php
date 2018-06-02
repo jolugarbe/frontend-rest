@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
 @section('styles')
     <style>
@@ -9,34 +9,34 @@
     </style>
 @endsection
 
+@section('title')
+    {{--<h4 class="d-none d-md-block">{{__('HOME')}}</h4>--}}
+@endsection
+
+@section('breadcrumb')
+    {{--<ol class="breadcrumb d-none d-md-block">--}}
+    {{--<li class="breadcrumb-item active"><a href="#">Home</a></li>--}}
+    {{--</ol>--}}
+@endsection
+
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                @include('site.includes.notifications')
-
-                <div class="row">
-
-                    <div class="col-md-12">
-                        <h2>{{__('Residuos ofertados')}}</h2>
-                    </div>
-
-                    <div class="col-md-12">
-
-                        <table id="waste_list" class="responsive w-100">
-                            <thead>
-                            <tr>
-                                <th>{{__('Nombre')}}</th>
-                                <th>{{__('Cantidad')}}</th>
-                                <th>{{__('Composición')}}</th>
-                                <th>{{__('Acciones')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-
-                    </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h4 class="card-title">{{__('Mis Residuos')}}</h4>
+                <div class="card-body">
+                    <table id="waste_list" class="table table-striped table-bordered dataTable responsive w-100" role="grid" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>{{__('Nombre')}}</th>
+                            <th>{{__('Cantidad')}}</th>
+                            <th>{{__('Composición')}}</th>
+                            <th>{{__('Tipo Publicación')}}</th>
+                            <th>{{__('Acciones')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -71,6 +71,7 @@
                     { "data": "name" },
                     { "data": "quantity" },
                     { "data": "composition" },
+                    { "data": "t_ad_id" },
                     { "data": "action" },
                 ],
                 "drawCallback": function( settings ) {
