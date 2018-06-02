@@ -10,13 +10,14 @@
 @endsection
 
 @section('title')
-    {{--<h4 class="d-none d-md-block">{{__('HOME')}}</h4>--}}
+    {{--<h4 class="d-none d-md-block">{{__('CAFA | BOLSA DE RESIDUOS REUTILIZABLES Y RECICLABLES')}}</h4>--}}
 @endsection
 
 @section('breadcrumb')
-    {{--<ol class="breadcrumb d-none d-md-block">--}}
-    {{--<li class="breadcrumb-item active"><a href="#">Home</a></li>--}}
-    {{--</ol>--}}
+    <ol class="breadcrumb d-none d-md-block">
+    <li class="breadcrumb-item"><a href="#">Mis Residuos</a></li>
+    <li class="breadcrumb-item active"><a href="{{URL::to('waste/user/published')}}">Publicados</a></li>
+    </ol>
 @endsection
 
 @section('content')

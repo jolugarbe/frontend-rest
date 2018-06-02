@@ -35,7 +35,7 @@ Route::middleware(['cookie'])->group(function () {
         Route::get('show/{id}', 'WasteController@getShowWaste');
 
         Route::prefix('user')->group(function () {
-            Route::get('offers', 'WasteController@getOffers');
+            Route::get('published', 'WasteController@getOffers');
             Route::post('offers-data', 'WasteController@postOffersData');
             Route::get('transfers', 'WasteController@getTransfers');
             Route::post('transfers-data', 'WasteController@postTransfersData');

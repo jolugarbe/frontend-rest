@@ -5,9 +5,9 @@
 @endsection
 
 @section('breadcrumb')
-    {{--<ol class="breadcrumb d-none d-md-block">--}}
-        {{--<li class="breadcrumb-item active"><a href="#">Home</a></li>--}}
-    {{--</ol>--}}
+    <ol class="breadcrumb d-none d-md-block">
+        <li class="breadcrumb-item active"><a href="{{URL::to('/home')}}">Home</a></li>
+    </ol>
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
                                 <h4 class="card-title bg-info text-white">Publicados</h4>
                                 <div class="card-body text-center">
                                     <h1 class="card-title">{{$total_waste}}</h1>
-                                    <a href="{{URL::to('waste/user/offers')}}" class="btn btn-secondary w-full">Consultar</a>
+                                    <a href="{{URL::to('waste/user/published')}}" class="btn btn-secondary w-full">Consultar</a>
                                 </div>
                             </div>
                         </div>
