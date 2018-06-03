@@ -1,8 +1,6 @@
 @extends('layouts.default')
 
 @section('styles')
-    <!-- Bootstrap DateTimePicker -->
-    <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
 
     <style>
         #waste_list th, #waste_list td {
@@ -135,11 +133,6 @@
 
 @section('scripts')
 
-    <!-- DateTimePicker -->
-    <script src="{{URL::to('js/plugins/datetimepicker/js/moment.min.js')}}"></script>
-    <script src="{{URL::to('js/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
-    <script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
-
     <script>
 
         function filterLocalities(province_id, id) {
@@ -169,13 +162,13 @@
                     }
                 },
                 columns: [
-                    { "data": "name" },
+                    { "data": "name", "responsivePriority": 1, "targets": 0 },
                     { "data": "quantity" },
                     { "data": "cer_code" },
                     { "data": "generation_date" },
                     { "data": "dangerous" },
                     { "data": "t_ad_id" },
-                    { "data": "action", "orderable": false },
+                    { "data": "action", "orderable": false, "responsivePriority": 2, "targets": -1 },
                 ],
                 order: [2, 'asc'],
                 rowGroup: {

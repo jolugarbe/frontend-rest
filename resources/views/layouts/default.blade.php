@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive admin dashboard and web application ui kit. ">
     <meta name="keywords" content="blank, starter">
 
-    <title>Blank page &mdash; TheAdmin</title>
+    <title>Bolsa de Residuos &mdash; CAFA</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
@@ -26,6 +26,12 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{URL::to('vendor/sweetalert2/sweetalert2.css')}}">
 
+    <!-- Bootstrap DateTimePicker -->
+    <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
+
+    <!-- Bootstrap SelectPicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
     @yield('styles')
 
 </head>
@@ -43,7 +49,7 @@
 
 
 <!-- Sidebar -->
-<aside class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg">
+<aside id="menu-left" class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg">
     <header class="sidebar-header">
         <a class="logo-icon" href="../index.html"><img src="{{URL::to('images/theme/logo-icon-light.png')}}" alt="logo icon"></a>
         <span class="logo">
@@ -65,9 +71,9 @@
             </li>
 
             <li class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{URL::to('user/profile')}}">
                     <span class="icon fa fa-user"></span>
-                    <span class="title">Datos Personales</span>
+                    <span class="title">Mi Perfil</span>
                 </a>
             </li>
 
@@ -80,7 +86,7 @@
 
                 <ul class="menu-submenu">
                     <li class="menu-item">
-                        <a class="menu-link" href="{{URL::to('waste/user/offers')}}">
+                        <a class="menu-link" href="{{URL::to('waste/user/published')}}">
                             <span class="dot"></span>
                             <span class="title">Publicados</span>
                         </a>
@@ -142,7 +148,7 @@
 
 
 <!-- Topbar -->
-<header class="topbar">
+<header id="top-bar" class="topbar">
     <div class="topbar-left">
         <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
         <a class="topbar-btn d-none d-md-block" href="#" data-provide="fullscreen tooltip" title="" data-original-title="Fullscreen">
@@ -221,7 +227,33 @@
 <!-- SweetAlert2 -->
 <script src="{{URL::to('vendor/sweetalert2/sweetalert2.js')}}"></script>
 
+<!-- jQuery Validate -->
+<script src="{{URL::to('js/plugins/jquery-validate/jquery.validate.min.js')}}"></script>
+<script src="{{URL::to('js/plugins/jquery-validate/additional-methods.min.js')}}"></script>
+<!-- Additional method for validate CIF/NIF with jQueryValidator -->
+<script src="{{URL::to('js/plugins/jquery-validate/my-additional-methods.js')}}"></script>
+<!-- Spanish messages for jQueryValidator -->
+<script src="{{URL::to('js/plugins/jquery-validate/localization/messages_es.js')}}"></script>
+<!-- End jQuery Validate -->
+
+<!-- DateTimePicker -->
+<script src="{{URL::to('js/plugins/datetimepicker/js/moment.min.js')}}"></script>
+<script src="{{URL::to('js/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
+
+
 <script>
+
+    // jQuery Validate Default Settings
+    jQuery.validator.setDefaults({
+        debug: false,
+        errorClass: 'is-invalid',
+        validClass: 'is-valid',
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback').appendTo(element.parent());
+        }
+    });
 
     var delay = (function(){
         var timer = 0;

@@ -85,11 +85,11 @@ class UserController extends Controller
                 return view('site.users.profile', compact('user', 'address', 'not_address', 'province_id', 'not_province_id', 'notification', 'activities', 'provinces', 'localities'));
 
             }else{
-                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar tu perfil. Disculpe las molestias.');
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar acceder a tu perfil. Disculpe las molestias.');
             }
         }catch (\Exception $exception){
             Log::error('ERROR PROFILE: '. $exception->getMessage());
-            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar tu perfil. Disculpe las molestias.');
+            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar acceder a tu perfil. Disculpe las molestias.');
         }
 
     }

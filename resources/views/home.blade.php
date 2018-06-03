@@ -59,4 +59,19 @@
         </div>
 
     </div>
+
+    {{--<div class="row">--}}
+
+        {{--<div class="col-md-12">--}}
+            {{--<div class="card">--}}
+                {{--<header class="card-header bg-primary">--}}
+                    {{--<h4 class="card-title text-white bold">Bolsa de Residuos</h4>--}}
+                {{--</header>--}}
+                {{--<div class="card-body">--}}
+                    {{----}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+    {{--</div>--}}
 @endsection
