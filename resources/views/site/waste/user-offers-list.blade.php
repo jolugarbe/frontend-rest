@@ -1,10 +1,18 @@
 @extends('layouts.default')
 
 @section('styles')
+    <!-- Bootstrap DateTimePicker -->
+    <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
+
     <style>
         #waste_list th, #waste_list td {
             text-align: center;
             vertical-align: middle;
+        }
+
+        .group-start td{
+            text-align: left !important;
+            background-color: #f7fafc !important;
         }
     </style>
 @endsection
@@ -15,13 +23,92 @@
 
 @section('breadcrumb')
     <ol class="breadcrumb d-none d-md-block">
-    <li class="breadcrumb-item"><a href="#">Mis Residuos</a></li>
-    <li class="breadcrumb-item active"><a href="{{URL::to('waste/user/published')}}">Publicados</a></li>
+        <li class="breadcrumb-item" style="display: inline"><a href="#">Mis Residuos</a></li>
+        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('waste/user/published')}}">Publicados</a></li>
     </ol>
 @endsection
 
 @section('content')
     <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title"><i class="fa fa-search" aria-hidden="true"></i>  {{__('Filtros de búsqueda')}}</h4>
+                    <ul class="card-controls">
+                        <li><a class="card-btn-slide" href="#"></a></li>
+                    </ul>
+                </header>
+
+                <div class="card-content" style="">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_name">Nombre</label>
+                                    <input class="form-control filters" id="f_name" name="f_name" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_waste_type">{{__('Tipo de residuo')}}</label>
+                                    <select class="show-tick filters" data-provide="selectpicker" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
+                                        <option value="">Todos</option>
+                                        @foreach($types as $type)
+                                            <option value="{{$type['id']}}">{{$type['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_cer_code">Código CER</label>
+                                    <input class="form-control filters" id="f_cer_code" name="f_cer_code" type="text">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_generation_date">Fecha de Generación</label>
+                                    <input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_dangerous">{{__('Peligrosidad')}}</label>
+                                    <select class="show-tick filters" data-provide="selectpicker" id="f_dangerous" name="f_dangerous" data-width="100%"  data-dropup-auto="false">
+                                        <option value="all">Todos</option>
+                                        <option value="1">Peligrosos</option>
+                                        <option value="0">No peligrosos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="f_ad_type">{{__('Tipo de publicación')}}</label>
+                                    <select class="show-tick filters" data-provide="selectpicker" id="f_ad_type" name="f_ad_type" data-width="100%"  data-dropup-auto="false">
+                                        <option value="">Todos</option>
+                                        @foreach($ads as $type)
+                                            <option value="{{$type['id']}}">{{$type['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <div class="card">
                 <h4 class="card-title">{{__('Mis Residuos')}}</h4>
@@ -31,7 +118,9 @@
                         <tr>
                             <th>{{__('Nombre')}}</th>
                             <th>{{__('Cantidad')}}</th>
-                            <th>{{__('Composición')}}</th>
+                            <th>{{__('Código CER')}}</th>
+                            <th>{{__('Fecha de Generación')}}</th>
+                            <th>{{__('Peligroso')}}</th>
                             <th>{{__('Tipo Publicación')}}</th>
                             <th>{{__('Acciones')}}</th>
                         </tr>
@@ -45,6 +134,11 @@
 @endsection
 
 @section('scripts')
+
+    <!-- DateTimePicker -->
+    <script src="{{URL::to('js/plugins/datetimepicker/js/moment.min.js')}}"></script>
+    <script src="{{URL::to('js/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
 
     <script>
 
@@ -66,16 +160,31 @@
                     "type": "POST",
                     data: function(d){
                         d._token = "{{csrf_token()}}";
+                        d.f_name = $('#f_name').val();
+                        d.f_waste_type = $('#f_waste_type').val();
+                        d.f_cer_code = $('#f_cer_code').val();
+                        d.f_generation_date = $('#f_generation_date').val();
+                        d.f_dangerous = $('#f_dangerous').val();
+                        d.f_ad_type = $('#f_ad_type').val();
                     }
                 },
                 columns: [
                     { "data": "name" },
                     { "data": "quantity" },
-                    { "data": "composition" },
+                    { "data": "cer_code" },
+                    { "data": "generation_date" },
+                    { "data": "dangerous" },
                     { "data": "t_ad_id" },
-                    { "data": "action" },
+                    { "data": "action", "orderable": false },
                 ],
+                order: [2, 'asc'],
+                rowGroup: {
+                    // Group by type
+                    dataSrc: 'type'
+                },
+                "searching": false,
                 "drawCallback": function( settings ) {
+
                     $('.delete-waste').click(function (e) {
                         e.preventDefault();
                         var waste_id = $(this).data('waste_id');
@@ -84,35 +193,36 @@
                             text: "¿Estás seguro de eliminar este residuo?",
                             type: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-secondary',
+                            buttonsStyling: false,
                             cancelButtonText: 'Cancelar',
                             confirmButtonText: 'Aceptar'
                         }).then((result) => {
                             if (result.value) {
-                            $('.loader').fadeIn('slow');
                             $.ajax({
                                 data: {"waste_id" : waste_id, "_token" : "{{csrf_token()}}" },
                                 type: "POST",
                                 dataType: "json",
                                 url: "{{URL::to('waste/delete')}}",
                                 success: function(data) {
-                                    $('.loader').fadeOut('slow');
                                     if(data.result == "success"){
                                         swal({
                                             position: 'center',
                                             type: 'success',
-                                            title: data.message,
+                                            title: 'Correcto',
+                                            text: data.message,
                                             showConfirmButton: false,
-                                            timer: 3500
+                                            timer: 4000
                                         });
                                     }else{
                                         swal({
                                             position: 'center',
                                             type: 'error',
-                                            title: data.message,
+                                            title: 'Error',
+                                            text: data.message,
                                             showConfirmButton: false,
-                                            timer: 3500
+                                            timer: 4000
                                         });
                                     }
 
@@ -120,7 +230,6 @@
 
                                 },
                                 error: function() {
-                                    $('.loader').fadeOut('slow');
                                     swal({
                                         position: 'center',
                                         type: 'error',
@@ -140,6 +249,19 @@
                 }
 
             });
+
+
+            $('#f_generation_date').datetimepicker({
+                locale: 'es',
+                format: 'DD/MM/YYYY'
+            });
+
+            // Apply the filter
+            $(".filters").on( 'keyup change dp.change', function () {
+                delay(function(){
+                    offer_table.draw();
+                }, 200 );
+            } );
 
         });
 

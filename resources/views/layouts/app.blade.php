@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{URL::to('js/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
 
     <!-- Datatables -->
-    <link rel="stylesheet" href="{{URL::to('js/plugins/datatable/datatables.css')}}">
+    <link rel="stylesheet" href="{{URL::to('js/plugins/datatables/datatables.css')}}">
 
     <style>
         body{
@@ -134,7 +134,7 @@
     <script src="{{URL::to('js/plugins/datetimepicker/js/moment-es.js')}}"></script>
 
     <!-- DATATABLES -->
-    <script src="{{URL::to('js/plugins/datatable/datatables.js')}}"></script>
+    <script src="{{URL::to('js/plugins/datatables/datatables.js')}}"></script>
 
     <script src="{{URL::to('js/plugins/sweetalert2/sweetalert2.js')}}"></script>
     <script>
