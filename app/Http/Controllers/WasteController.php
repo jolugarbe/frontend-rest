@@ -152,11 +152,60 @@ class WasteController extends Controller
     }
 
     public function getTransfers(){
-        return view('site.waste.user-transfers-list');
+
+        try{
+            $result = $this->wasteRepo->wasteDataForCreate();
+
+            if($result['status'] == 200){
+                // Convert body std object to array
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $types = $content['types'];
+                return view('site.waste.user-transfers-list', compact('ads', 'types'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al consultar sus residuos cedidos. Disculpe las molestias.');
+            }
+
+        }catch(ClientException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos cedidos. Disculpe las molestias.');
+        }catch(ServerException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos cedidos. Disculpe las molestias.');
+        }catch(\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos cedidos. Disculpe las molestias.');
+        }
+
     }
 
     public function getRequests(){
-        return view('site.waste.user-requests-list');
+
+        try{
+            $result = $this->wasteRepo->wasteDataForCreate();
+
+            if($result['status'] == 200){
+                // Convert body std object to array
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $types = $content['types'];
+                return view('site.waste.user-requests-list', compact('ads', 'types'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al consultar sus residuos solicitados. Disculpe las molestias.');
+            }
+
+        }catch(ClientException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos solicitados. Disculpe las molestias.');
+        }catch(ServerException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos solicitados. Disculpe las molestias.');
+        }catch(\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar sus residuos solicitados. Disculpe las molestias.');
+        }
     }
 
     public function getUpdateWaste($waste_id){

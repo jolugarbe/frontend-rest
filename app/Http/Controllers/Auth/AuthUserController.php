@@ -62,7 +62,7 @@ class AuthUserController extends Controller
                 $user = $content['user'];
                 $user_data = cookie('front_us_data', $user['name']);
 
-                return redirect()->to('home')->with('success', 'Bienvenido a Frontend.local')->withCookie($token)->withCookie($user_data);
+                return redirect()->to('home')->withCookie($token)->withCookie($user_data);
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar iniciar sesión. Disculpe las molestias.');
             }
