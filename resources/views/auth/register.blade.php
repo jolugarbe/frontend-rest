@@ -6,7 +6,7 @@
     <meta name="description" content="Responsive admin dashboard and web application ui kit. ">
     <meta name="keywords" content="register, signup">
 
-    <title>User Registration 1 &mdash; TheAdmin</title>
+    <title>Registrar Empresa &mdash; CAFA</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
@@ -35,7 +35,14 @@
 
 <body>
 
-
+<!-- Preloader -->
+<div class="preloader">
+    <div class="spinner-dots">
+        <span class="dot1"></span>
+        <span class="dot2"></span>
+        <span class="dot3"></span>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
@@ -50,7 +57,7 @@
         </div>
         <div class="card card-shadowed mt-25">
             <div class="card-header">
-                <h4 class="card-title">{{Lang::get('Registrar empresa')}}</h4>
+                <h4 class="card-title">{{Lang::get('Registrar Empresa')}}</h4>
             </div>
 
             <div class="card-body">
@@ -58,6 +65,9 @@
                     @csrf
 
                     <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="text-light fw-400">Datos de la Empresa</h5>
+                        </div>
                         <div class="form-group col-md-6">
                             <label for="name">{{ Lang::get('Nombre') }}</label>
                             <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -109,6 +119,46 @@
                     </div>
 
                     <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="contact_person">{{ Lang::get('Persona de contacto') }}</label>
+                            <input id="contact_person" type="text" class="form-control{{ $errors->has('contact_person') ? ' is-invalid' : '' }}" name="contact_person" value="{{ old('contact_person') }}" required>
+                            @if ($errors->has('contact_person'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('contact_person') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="telephone">{{ Lang::get('Teléfono') }}</label>
+                            <input id="telephone" type="number" minlength="9" maxlength="9" class="form-control{{ $errors->has('telephone') ? ' is-invalid' : '' }}" name="telephone" value="{{ old('telephone') }}" required>
+                            @if ($errors->has('telephone'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('telephone') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="email">{{ Lang::get('Email') }} <small>(Se utiliza para acceder a la plataforma)</small></label>
+                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="text-light fw-400">Dirección</h5>
+                        </div>
+
                         <div class="form-group col-md-12">
                             <label for="address_line">{{ Lang::get('Domicilio') }}</label>
                             <input id="address_line" type="text" class="form-control{{ $errors->has('address_line') ? ' is-invalid' : '' }}" name="address_line" value="{{ old('address_line') }}" required>
@@ -162,41 +212,12 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="contact_person">{{ Lang::get('Persona de contacto') }}</label>
-                            <input id="contact_person" type="text" class="form-control{{ $errors->has('contact_person') ? ' is-invalid' : '' }}" name="contact_person" value="{{ old('contact_person') }}" required>
-                            @if ($errors->has('contact_person'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('contact_person') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                    </div>
+                    <hr>
 
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="telephone">{{ Lang::get('Teléfono') }}</label>
-                            <input id="telephone" type="number" minlength="9" maxlength="9" class="form-control{{ $errors->has('telephone') ? ' is-invalid' : '' }}" name="telephone" value="{{ old('telephone') }}" required>
-                            @if ($errors->has('telephone'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('telephone') }}</strong>
-                                    </span>
-                            @endif
+                        <div class="col-md-12">
+                            <h5 class="text-light fw-400">Huella de Carbono</h5>
                         </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="email">{{ Lang::get('Email') }} <small>(Se utiliza para acceder a la plataforma)</small></label>
-                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-md-6">
                             <label for="carbon_footprint">Inscrita en el Registro de Huella de Carbono</label>
                             <select class="form-control" data-live-search="true" id="carbon_footprint" name="carbon_footprint" required>
@@ -221,6 +242,8 @@
                         </div>
                     </div>
 
+                    <hr>
+
                     <div class="row">
                         <div class="form-group col-md-12">
                             <input type="checkbox" value="1" id="notification_data" name="notification_data">
@@ -232,6 +255,9 @@
 
                     <fieldset id="form_notification_data" style="display: none" disabled>
                         <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="text-light fw-400">Datos a efecto de notificación</h5>
+                            </div>
                             <div class="form-group col-md-12">
                                 <label for="not_address_line">{{ Lang::get('Domicilio') }}</label>
                                 <input id="not_address_line" type="text" class="form-control{{ $errors->has('not_address_line') ? ' is-invalid' : '' }}" name="not_address_line" value="{{ old('not_address_line') }}" required>
@@ -526,7 +552,7 @@
 //                    }
             },
             submitHandler: function (form) {
-                $(".loader").fadeIn("slow");
+                $(".preloader").fadeIn("slow");
                 form.submit();
 
             }
