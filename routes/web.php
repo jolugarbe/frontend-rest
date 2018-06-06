@@ -42,7 +42,9 @@ Route::middleware(['cookie'])->group(function () {
             Route::get('requests', 'WasteController@getRequests');
             Route::post('requests-data', 'WasteController@postRequestsData');
             Route::get('show-transfer/{id}', 'WasteController@getShowTransfer');
+            Route::get('show-transfer/pdf/{id}', 'WasteController@getShowTransferPdf');
             Route::get('show-request/{id}', 'WasteController@getShowRequest');
+            Route::get('show-request/pdf/{id}', 'WasteController@getShowRequestPdf');
         });
 
     });

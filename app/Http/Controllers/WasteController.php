@@ -8,6 +8,8 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 
 class WasteController extends Controller
 {
@@ -359,7 +361,7 @@ class WasteController extends Controller
                 $request_province = $content['request_province'];
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province'));
+                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la cesión del residuo. Disculpe las molestias.');
@@ -407,7 +409,107 @@ class WasteController extends Controller
                 $request_province = $content['request_province'];
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province'));
+                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 403){
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->with('error', $content['exception']);
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del el residuo. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del el residuo. Disculpe las molestias.');
+
+        }
+
+    }
+
+    public function getShowRequestPdf($transfer_id){
+
+        try{
+            $result = $this->wasteRepo->wasteTransferRequestDataForShow(array('transfer_id' => $transfer_id));
+            if($result['status'] == 200){
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $type = $content['type'];
+                $frequency = $content['frequency'];
+                $province = $content['province'];
+//                $localities = $content['localities'];
+                $waste = $content['waste'];
+                $address = $content['address'];
+                $locality = $content['locality'];
+                $is_request = true;
+
+                $owner_user = $content['owner_user'];
+                $owner_activity = $content['owner_activity'];
+                $owner_address = $content['owner_address'];
+                $owner_locality = $content['owner_locality'];
+                $owner_province = $content['owner_province'];
+
+                $request_user = $content['request_user'];
+                $request_activity = $content['request_activity'];
+                $request_address = $content['request_address'];
+                $request_locality = $content['request_locality'];
+                $request_province = $content['request_province'];
+
+                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'))->setOption('viewport-size', '1366x1024');
+//                return view('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
+                return $pdf->download('Solicitud_de_Residuo.pdf');
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 403){
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->with('error', $content['exception']);
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');
+
+        }
+
+    }
+
+    public function getShowTransferPdf($transfer_id){
+
+        try{
+            $result = $this->wasteRepo->wasteTransferRequestDataForShow(array('transfer_id' => $transfer_id));
+            if($result['status'] == 200){
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $type = $content['type'];
+                $frequency = $content['frequency'];
+                $province = $content['province'];
+//                $localities = $content['localities'];
+                $waste = $content['waste'];
+                $address = $content['address'];
+                $locality = $content['locality'];
+                $is_transfer = true;
+
+                $owner_user = $content['owner_user'];
+                $owner_activity = $content['owner_activity'];
+                $owner_address = $content['owner_address'];
+                $owner_locality = $content['owner_locality'];
+                $owner_province = $content['owner_province'];
+
+                $request_user = $content['request_user'];
+                $request_activity = $content['request_activity'];
+                $request_address = $content['request_address'];
+                $request_locality = $content['request_locality'];
+                $request_province = $content['request_province'];
+
+                $pdf = PDF::loadView('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
+                return $pdf->download('Solicitud_de_Residuo.pdf');
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');

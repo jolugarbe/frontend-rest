@@ -23,7 +23,11 @@
                     <h4 class="card-title"><strong>@if(isset($is_request)) DOCUMENTO DE SOLICITUD DE RESIDUO @elseif(isset($is_transfer)) DOCUMENTO DE CESIÓN DE RESIDUO @endif</strong></h4>
                     <div class="card-header-actions">
                         <a class="btn btn-purple" href="#">Volver</a>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                        @if(isset($is_request))
+                            <a class="btn btn-danger" href="{{URL::to('waste/user/show-request/pdf/'.$transfer_id)}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                        @elseif(isset($is_transfer))
+                            <a class="btn btn-danger" href="{{URL::to('waste/user/show-transfer/pdf/'.$transfer_id)}}"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                        @endif
                     </div>
                 </header>
             </div>
