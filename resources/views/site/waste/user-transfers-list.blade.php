@@ -50,7 +50,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="f_waste_type">{{__('Tipo de residuo')}}</label>
-                                    <select class="show-tick filters" data-provide="selectpicker" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
+                                    <select class="form-control show-tick filters" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
                                         <option value="">Todos</option>
                                         @foreach($types as $type)
                                             <option value="{{$type['id']}}">{{$type['name']}}</option>
@@ -87,7 +87,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="f_request_date">Solicitud de Cesión</label>
+                                    <label for="f_request_date">Fecha de Cesión</label>
                                     <input class="form-control filters" id="f_request_date" name="f_request_date" type="text">
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                             <th>{{__('Código CER')}}</th>
                             <th>{{__('Fecha de Disponibilidad')}}</th>
                             <th>{{__('Empresa Solicitante')}}</th>
-                            <th>{{__('Solicitud de Cesión')}}</th>
+                            <th>{{__('Fecha de Cesión')}}</th>
                             <th>{{__('Acciones')}}</th>
                         </tr>
                         </thead>

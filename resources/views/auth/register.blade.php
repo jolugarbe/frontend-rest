@@ -83,7 +83,7 @@
                             <select class="form-control" id="activity" name="activity" required>
                                 <option value="">Seleccione un sector</option>
                                 @foreach($activities['activities'] as $activity)
-                                    <optgroup class="bg-secondary" label="Grupo {{$activity['group']}}">
+                                    <optgroup label="Grupo {{$activity['group']}}">
                                         <option value="{{$activity['id']}}">{{$activity['name']}}</option>
                                     </optgroup>
                                 @endforeach

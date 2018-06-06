@@ -1,27 +1,15 @@
-@extends('layouts.default')
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
 
-@section('styles')
+            <header class="card-header">
+                <h4 class="card-title">@if(isset($is_request)){{__('Residuo solicitado')}} @elseif(isset($is_transfer)) {{__('Residuo cedido')}} @endif</h4>
+                <ul class="card-controls">
+                    <li><a class="card-btn-slide" href="#"></a></li>
+                </ul>
+            </header>
 
-@endsection
-
-@section('title')
-    {{--<h4 class="d-none d-md-block">{{__('CAFA | BOLSA DE RESIDUOS REUTILIZABLES Y RECICLABLES')}}</h4>--}}
-@endsection
-
-@section('breadcrumb')
-    <ol class="breadcrumb d-none d-md-block">
-        <li class="breadcrumb-item" style="display: inline"><a href="#">Residuos</a></li>
-        <li class="breadcrumb-item active" style="display: inline"><a href="#">Ver datos</a></li>
-    </ol>
-@endsection
-
-@section('content')
-
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <h4 class="card-title">{{__('Ver residuo')}}</h4>
-
+            <div class="card-content">
                 <div class="card-body">
                     <form id="register-form" method="POST" action="{{isset($waste) ? URL::to('waste/update') : URL::to('waste/create')}}">
                         @csrf
@@ -84,7 +72,17 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
+                                <label for="cer_code">{{ __('Código CER') }}</label>
+                                <input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($waste) ? $waste['cer_code'] : null) }}" required readonly="readonly">
+                                @if ($errors->has('cer_code'))
+                                    <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('cer_code') }}</strong>
+                                            </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-3">
                                 <label for="frequency">{{__('Frecuencia')}}</label>
                                 <input id="frequency" type="text" class="form-control{{ $errors->has('frequency') ? ' is-invalid' : '' }}" name="frequency" value="{{ old('frequency', isset($frequency) ? $frequency : null) }}" required readonly="readonly">
                                 @if ($errors->has('frequency'))
@@ -114,13 +112,23 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
                                         <label for="dangerous">{{__('Peligroso')}}</label>
                                         <input id="dangerous" type="text" class="form-control{{ $errors->has('dangerous') ? ' is-invalid' : '' }}" name="dangerous" value="{{ old('dangerous', isset($waste) ? $waste['dangerous'] == 1 ? "SÍ" : "NO" : null) }}" required readonly="readonly">
                                         @if ($errors->has('dangerous'))
                                             <span class="invalid-feedback">
                                             <strong>{{ $errors->first('dangerous') }}</strong>
                                         </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="production">{{ __('Producción') }}</label>
+                                        <input id="production" type="text" class="form-control{{ $errors->has('production') ? ' is-invalid' : '' }}" name="production" value="{{ old('production', isset($waste) ? $waste['production'] : null) }}" readonly="readonly">
+                                        @if ($errors->has('production'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('production') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
@@ -138,6 +146,28 @@
                                         @endif
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="packaging">{{ __('Embalaje') }}</label>
+                                <input id="packaging" type="text" class="form-control{{ $errors->has('packaging') ? ' is-invalid' : '' }}" name="packaging" value="{{ old('packaging', isset($waste) ? $waste['packaging'] : null) }}" required readonly="readonly">
+                                @if ($errors->has('packaging'))
+                                    <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('packaging') }}</strong>
+                                            </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="transport">{{ __('Transporte') }}</label>
+                                <input id="transport" type="text" class="form-control{{ $errors->has('transport') ? ' is-invalid' : '' }}" name="transport" value="{{ old('transport', isset($waste) ? $waste['transport'] : null) }}" required readonly="readonly">
+                                @if ($errors->has('transport'))
+                                    <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('transport') }}</strong>
+                                            </span>
+                                @endif
                             </div>
                         </div>
 
@@ -168,60 +198,6 @@
                                     <span class="invalid-feedback">
                                             <strong>{{ $errors->first('pickup_date') }}</strong>
                                         </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="production">{{ __('Producción') }}</label>
-                                <input id="production" type="text" class="form-control{{ $errors->has('production') ? ' is-invalid' : '' }}" name="production" value="{{ old('production', isset($waste) ? $waste['production'] : null) }}" readonly="readonly">
-                                @if ($errors->has('production'))
-                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('production') }}</strong>
-                                            </span>
-                                @endif
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label for="cer_code">{{ __('Código CER') }}</label>
-                                <input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($waste) ? $waste['cer_code'] : null) }}" required readonly="readonly">
-                                @if ($errors->has('cer_code'))
-                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('cer_code') }}</strong>
-                                            </span>
-                                @endif
-                            </div>
-
-                            {{--<div class="form-group col-md-4">--}}
-                                {{--<label for="ad_type">{{__('Tipo de anuncio')}}</label>--}}
-                                {{--<input id="ad_type" type="text" class="form-control{{ $errors->has('ad_type') ? ' is-invalid' : '' }}" name="ad_type" value="{{ old('ad_type', isset($ads) ? $ads : null) }}" required readonly="readonly">--}}
-                                {{--@if ($errors->has('ad_type'))--}}
-                                    {{--<span class="invalid-feedback">--}}
-                                            {{--<strong>{{ $errors->first('ad_type') }}</strong>--}}
-                                        {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="packaging">{{ __('Embalaje') }}</label>
-                                <input id="packaging" type="text" class="form-control{{ $errors->has('packaging') ? ' is-invalid' : '' }}" name="packaging" value="{{ old('packaging', isset($waste) ? $waste['packaging'] : null) }}" required readonly="readonly">
-                                @if ($errors->has('packaging'))
-                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('packaging') }}</strong>
-                                            </span>
-                                @endif
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="transport">{{ __('Transporte') }}</label>
-                                <input id="transport" type="text" class="form-control{{ $errors->has('transport') ? ' is-invalid' : '' }}" name="transport" value="{{ old('transport', isset($waste) ? $waste['transport'] : null) }}" required readonly="readonly">
-                                @if ($errors->has('transport'))
-                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('transport') }}</strong>
-                                            </span>
                                 @endif
                             </div>
                         </div>
@@ -282,13 +258,4 @@
             </div>
         </div>
     </div>
-
-@endsection
-
-@section('scripts')
-
-    <script>
-
-    </script>
-
-@endsection
+</div>

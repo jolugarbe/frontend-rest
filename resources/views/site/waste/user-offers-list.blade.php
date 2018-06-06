@@ -51,7 +51,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="f_waste_type">{{__('Tipo de residuo')}}</label>
-                                    <select class="show-tick filters" data-provide="selectpicker" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
+                                    <select class="form-control show-tick filters" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
                                         <option value="">Todos</option>
                                         @foreach($types as $type)
                                             <option value="{{$type['id']}}">{{$type['name']}}</option>
@@ -82,7 +82,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="f_dangerous">{{__('Peligrosidad')}}</label>
-                                    <select class="show-tick filters" data-provide="selectpicker" id="f_dangerous" name="f_dangerous" data-width="100%"  data-dropup-auto="false">
+                                    <select class="form-control show-tick filters" id="f_dangerous" name="f_dangerous" data-width="100%"  data-dropup-auto="false">
                                         <option value="all">Todos</option>
                                         <option value="1">Peligrosos</option>
                                         <option value="0">No peligrosos</option>
@@ -93,7 +93,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="f_ad_type">{{__('Tipo de publicación')}}</label>
-                                    <select class="show-tick filters" data-provide="selectpicker" id="f_ad_type" name="f_ad_type" data-width="100%"  data-dropup-auto="false">
+                                    <select class="form-control show-tick filters" id="f_ad_type" name="f_ad_type" data-width="100%"  data-dropup-auto="false">
                                         <option value="">Todos</option>
                                         @foreach($ads as $type)
                                             <option value="{{$type['id']}}">{{$type['name']}}</option>

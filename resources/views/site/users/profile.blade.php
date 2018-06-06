@@ -29,7 +29,7 @@
 
                         <div class="form-group col-md-6">
                             <label for="activity">Sector/Actividad</label>
-                            <select class="form-control show-tick" id="activity" data-provide="selectpicker" name="activity" required data-width="100%" data-dropup-auto="false">
+                            <select class="form-control show-tick" id="activity" name="activity" required data-width="100%" data-dropup-auto="false">
                                 <option value="">Seleccione un sector</option>
                                 @foreach($activities as $activity)
                                     <optgroup label="Grupo {{$activity['group']}}">
@@ -131,7 +131,7 @@
 
                         <div class="form-group col-md-4">
                             <label for="province">Provincia</label>
-                            <select class="form-control show-tick" data-provide="selectpicker" id="province" name="province" required data-dropup-auto="false">
+                            <select class="form-control show-tick" id="province" name="province" required data-dropup-auto="false">
                                 <option value="">Seleccione provincia</option>
                                 @foreach($provinces as $province)
                                     <option @if(isset($province_id) && $province_id == $province['id']) selected="selected" @endif value="{{$province['id']}}">{{$province['name']}}</option>
@@ -146,7 +146,7 @@
 
                         <div class="form-group col-md-4">
                             <label for="locality">Localidad</label>
-                            <select class="form-control show-tick" data-provide="selectpicker" id="locality" name="locality" required data-dropup-auto="false">
+                            <select class="form-control show-tick" id="locality" name="locality" required data-dropup-auto="false">
                                 <option value="">Seleccione localidad</option>
                                 @foreach($localities as $locality)
                                     <option @if(isset($address) && $address['locality_id'] == $locality['id']) selected="selected" @endif value="{{$locality['id']}}">{{$locality['name']}}</option>
@@ -168,7 +168,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="carbon_footprint">Inscrita en el Registro de Huella de Carbono</label>
-                            <select class="form-control show-tick" data-provide="selectpicker" id="carbon_footprint" name="carbon_footprint" required data-dropup-auto="false">
+                            <select class="form-control show-tick" id="carbon_footprint" name="carbon_footprint" required data-dropup-auto="false">
                                 <option @if(isset($user) && $user['carbon_footprint'] == 0) selected="selected" @endif value="0">NO</option>
                                 <option @if(isset($user) && $user['carbon_footprint'] == 1) selected="selected" @endif value="1">SÍ</option>
                             </select>
@@ -230,7 +230,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="not_province">Provincia</label>
-                                <select class="form-control show-tick" data-provide="selectpicker" id="not_province" name="not_province" required data-dropup-auto="false">
+                                <select class="form-control show-tick" id="not_province" name="not_province" required data-dropup-auto="false">
                                     <option value="">Seleccione provincia</option>
                                     @foreach($provinces as $province)
                                         <option @if(isset($not_province_id) && $not_province_id == $province['id']) selected="selected" @endif value="{{$province['id']}}">{{$province['name']}}</option>
@@ -245,7 +245,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="not_locality">Localidad</label>
-                                <select class="form-control show-tick" data-provide="selectpicker" id="not_locality" name="not_locality" required data-dropup-auto="false">
+                                <select class="form-control show-tick" id="not_locality" name="not_locality" required data-dropup-auto="false">
                                     <option value="">Seleccione localidad</option>
                                     @foreach($localities as $locality)
                                         <option @if(isset($not_address) && $not_address['locality_id'] == $locality['id']) selected="selected" @endif value="{{$locality['id']}}">{{$locality['name']}}</option>
@@ -420,7 +420,7 @@
                 }
             });
 
-            $('#province').change(function () {
+            $('#province').on('change changed.bs.select', function () {
 
                 // Get array of the localities that belong to the selected province
                 var province_id = $(this).val();
@@ -436,7 +436,7 @@
                 $('#locality').empty().append(options);
             });
 
-            $('#not_province').change(function () {
+            $('#not_province').on('change changed.bs.select', function () {
 
                 // Get array of the localities that belong to the selected province
                 var province_id = $(this).val();

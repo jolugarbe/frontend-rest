@@ -41,6 +41,8 @@ Route::middleware(['cookie'])->group(function () {
             Route::post('transfers-data', 'WasteController@postTransfersData');
             Route::get('requests', 'WasteController@getRequests');
             Route::post('requests-data', 'WasteController@postRequestsData');
+            Route::get('show-transfer/{id}', 'WasteController@getShowTransfer');
+            Route::get('show-request/{id}', 'WasteController@getShowRequest');
         });
 
     });

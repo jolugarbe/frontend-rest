@@ -81,4 +81,9 @@ class WasteRepo extends GuzzleHttpRequest
         return $response;
     }
 
+    public function wasteTransferRequestDataForShow($data)
+    {
+        $response = $this->post('waste/user/show-transfer-request', $data);
+        return $response;
+    }
 }
