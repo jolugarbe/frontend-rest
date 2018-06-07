@@ -150,7 +150,31 @@ class WasteController extends Controller
     }
 
     public function getAvailableList(){
-        return view('site.waste.available-list');
+        try{
+            $result = $this->wasteRepo->wasteDataForCreate();
+
+            if($result['status'] == 200){
+                // Convert body std object to array
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $types = $content['types'];
+                return view('site.waste.available-list', compact('ads', 'types'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al consultar los residuos disponibles. Disculpe las molestias.');
+            }
+
+        }catch(ClientException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos disponibles. Disculpe las molestias.');
+        }catch(ServerException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos disponibles. Disculpe las molestias.');
+        }catch(\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos disponibles. Disculpe las molestias.');
+        }
+
     }
 
     public function getTransfers(){
