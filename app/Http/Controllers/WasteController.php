@@ -177,6 +177,34 @@ class WasteController extends Controller
 
     }
 
+    public function getDemandList(){
+        try{
+            $result = $this->wasteRepo->wasteDataForCreate();
+
+            if($result['status'] == 200){
+                // Convert body std object to array
+                $content = json_decode(json_encode($result['body']), true);
+                $ads = $content['ads'];
+                $types = $content['types'];
+                return view('site.waste.demand-list', compact('ads', 'types'));
+
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al consultar los residuos demandados. Disculpe las molestias.');
+            }
+
+        }catch(ClientException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos demandados. Disculpe las molestias.');
+        }catch(ServerException $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos demandados. Disculpe las molestias.');
+        }catch(\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al consultar los residuos demandados. Disculpe las molestias.');
+        }
+
+    }
+
     public function getTransfers(){
 
         try{
@@ -278,6 +306,13 @@ class WasteController extends Controller
 
     public function postAvailableData(Request $request){
         $response = $this->wasteRepo->availableListData($request->all());
+        $content = json_decode(json_encode($response['body']), true);
+        $data = json_encode($content);
+        return $data;
+    }
+
+    public function postDemandData(Request $request){
+        $response = $this->wasteRepo->demandListData($request->all());
         $content = json_decode(json_encode($response['body']), true);
         $data = json_encode($content);
         return $data;
@@ -532,7 +567,7 @@ class WasteController extends Controller
                 $request_locality = $content['request_locality'];
                 $request_province = $content['request_province'];
 
-                $pdf = PDF::loadView('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
+                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'))->setOption('viewport-size', '1366x1024');
                 return $pdf->download('Solicitud_de_Residuo.pdf');
 
             }else{

@@ -121,7 +121,7 @@
             </li>
 
             <li class="menu-item">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="{{URL::to('waste/demand')}}">
                     <span class="icon ti-layout"></span>
                     <span class="title">Demandados</span>
                 </a>

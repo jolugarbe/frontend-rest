@@ -30,7 +30,9 @@ Route::middleware(['cookie'])->group(function () {
         Route::post('delete', 'WasteController@postDeleteWaste');
         Route::get('update/{id}', 'WasteController@getUpdateWaste');
         Route::get('available', 'WasteController@getAvailableList');
+        Route::get('demand', 'WasteController@getDemandList');
         Route::post('available-data', 'WasteController@postAvailableData');
+        Route::post('demand-data', 'WasteController@postDemandData');
         Route::post('request', 'WasteController@postRequestWaste');
         Route::get('show/{id}', 'WasteController@getShowWaste');
 

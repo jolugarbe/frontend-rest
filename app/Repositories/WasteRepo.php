@@ -50,6 +50,11 @@ class WasteRepo extends GuzzleHttpRequest
         return $response;
     }
 
+    public function demandListData($data){
+        $response = $this->post('waste/list/demand-data', $data);
+        return $response;
+    }
+
     public function wasteById($data){
         $response = $this->post('waste/data-by-id', $data);
         return $response;
