@@ -89,4 +89,59 @@ class AuthUserController extends Controller
         $result = $this->userRepo->logout();
         return redirect('/')->withCookie(Cookie::forget('front_us_data'))->withCookie(Cookie::forget('front_us_token'));
     }
+
+    public function postUserEmailReset(Request $request){
+        try{
+            $result = $this->userRepo->emailResetPass($request->all());
+            $content = json_decode(json_encode($result['body']), true);
+            return redirect('login')->with('success', $content['success']);
+        }catch (\Exception $exception){
+            $response = $exception->getResponse();
+            $content = json_decode($response->getBody()->getContents(), true);
+            return redirect()->back()->withInput()->with('error', $content['error']);
+        }
+    }
+
+
+    public function getTokenPasswordReset($token){
+        try{
+            $result = $this->userRepo->checkTokenResetPass(array('token_reset_pass' => $token));
+            $content = json_decode(json_encode($result['body']), true);
+            $email = $content['email'];
+            return view('auth.passwords.reset', compact('email', 'token'));
+        }catch (\Exception $exception){
+            $response = $exception->getResponse();
+            $content = json_decode($response->getBody()->getContents(), true);
+            return redirect('login')->with('error', $content['error']);
+        }
+    }
+
+    public function postUserPasswordReset(Request $request){
+        try{
+            $result = $this->userRepo->setNewPassword($request->all());
+            $content = json_decode(json_encode($result['body']), true);
+            return redirect('login')->with('success', $content['message']);
+        }catch (ClientException $exception){
+
+            // Get the errors from the backend validation and return to the view.
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 422){
+                $errors = array();
+                foreach (json_decode($response->getBody()->getContents(), true) as $items){
+                    foreach ($items as $item){
+                        array_push($errors, $item[0]);
+                    }
+                }
+                return redirect()->back()->withInput()->with('error', 'No ha sido posible actualizar su contraseña por los siguientes motivos:')->with('validation_errors', $errors);
+            }else{
+                $content = json_decode($response->getBody()->getContents(), true);
+                return redirect()->back()->withInput()->with('error', $content['message']);
+            }
+        }catch (\Exception $exception){
+            $response = $exception->getResponse();
+            $content = json_decode($response->getBody()->getContents(), true);
+            return redirect()->back()->withInput()->with('error', $content['message']);
+        }
+
+    }
 }

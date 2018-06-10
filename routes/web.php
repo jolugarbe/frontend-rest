@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::post('register-user', 'Auth\AuthUserController@postRegister');
 Route::post('login-user', 'Auth\AuthUserController@postLogin');
 Route::post('logout-user', 'Auth\AuthUserController@postLogout')->name('logout_user');
+Route::post('user/email-reset', 'Auth\AuthUserController@postUserEmailReset');
+Route::post('user/password-reset', 'Auth\AuthUserController@postUserPasswordReset');
+Route::get('token/reset/password/{token}', 'Auth\AuthUserController@getTokenPasswordReset');
 
 Route::middleware(['cookie'])->group(function () {
 

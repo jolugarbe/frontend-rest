@@ -58,4 +58,22 @@ class UserRepo extends GuzzleHttpRequest
         $response = $this->post('user/update', $data);
         return $response;
     }
+
+    public function emailResetPass($data)
+    {
+        $response = $this->post('email-reset', $data);
+        return $response;
+    }
+
+    public function checkTokenResetPass($data)
+    {
+        $response = $this->post('reset-pass/check-token', $data);
+        return $response;
+    }
+
+    public function setNewPassword($data)
+    {
+        $response = $this->post('reset-pass/update-password', $data);
+        return $response;
+    }
 }

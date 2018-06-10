@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel Frontend</title>
+        <title>Bolsa de residuos reutilizables y reciclables</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -69,17 +69,17 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if(Cookie::get('front_us_token'))
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Panel de control</a>
                     @else
                         <a href="{{ route('login') }}">Acceder</a>
-                        <a href="{{ route('register') }}">Registrar</a>
+                        <a href="{{ route('register') }}">Registrarme</a>
                     @endif
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel Frontend
+                    Bolsa de residuos reutilizables y reciclables
                 </div>
 
                 <div class="links">
