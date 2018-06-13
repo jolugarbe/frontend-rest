@@ -51,9 +51,9 @@
 <!-- Sidebar -->
 <aside id="menu-left" class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg">
     <header class="sidebar-header">
-        <a class="logo-icon" href="../index.html"><img src="{{URL::to('images/theme/logo-icon-light.png')}}" alt="logo icon"></a>
+        <a class="logo-icon" href="{{URL::to('home')}}"><img src="{{URL::to('images/theme/logo-icon-light.png')}}" alt="logo icon"></a>
         <span class="logo">
-          <a href="../index.html"><img src="{{URL::to('images/theme/logo-light.png')}}" alt="logo"></a>
+          <a href="{{URL::to('home')}}"><img src="{{URL::to('images/theme/logo-light.png')}}" alt="logo"></a>
         </span>
         <span class="sidebar-toggle-fold"></span>
     </header>
@@ -95,7 +95,7 @@
                     <li class="menu-item">
                         <a class="menu-link" href="{{URL::to('waste/user/transfers')}}">
                             <span class="dot"></span>
-                            <span class="title">Cedidos</span>
+                            <span class="title">Cesiones</span>
                         </a>
                     </li>
 
@@ -181,7 +181,7 @@
     <footer class="site-footer">
         <div class="row">
             <div class="col-md-6">
-                <p class="text-center text-md-left">Copyright © 2018 <a href="#">CAFA</a>. Todos los derechos reservados.</p>
+                <p class="text-center text-md-left">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>
             </div>
 
             <div class="col-md-6">

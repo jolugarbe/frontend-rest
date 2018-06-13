@@ -21,7 +21,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb d-none d-md-block">
         <li class="breadcrumb-item" style="display: inline"><a href="#">Mis Residuos</a></li>
-        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('waste/user/requests')}}">Solicitados</a></li>
+        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('waste/user/requests')}}">Solicitudes</a></li>
     </ol>
 @endsection
 
@@ -99,7 +99,7 @@
 
         <div class="col-md-12">
             <div class="card">
-                <h4 class="card-title">{{__('Residuos Solicitados')}}</h4>
+                <h4 class="card-title">{{__('Solicitudes enviadas')}}</h4>
                 <div class="card-body">
                     <table id="waste_list" class="table table-striped table-bordered dataTable responsive w-100" role="grid" cellspacing="0">
                         <thead>
