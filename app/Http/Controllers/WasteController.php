@@ -434,6 +434,7 @@ class WasteController extends Controller
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la cesión del residuo. Disculpe las molestias.');
             }
         }catch (\Exception $exception){
+            Log::error('VER CESIÓN: '. $exception->getMessage());
             return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la cesión del residuo. Disculpe las molestias.');
 
         }

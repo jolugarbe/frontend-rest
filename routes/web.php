@@ -60,6 +60,11 @@ Route::middleware(['cookie'])->group(function () {
         Route::post('update', 'UserController@postUpdate');
     });
 
+    Route::prefix('transfer')->group(function () {
+        Route::post('accept', 'TransferController@postAcceptTransfer');
+        Route::post('decline', 'TransferController@postDeclineTransfer');
+        Route::post('cancel', 'TransferController@postCancelTransfer');
+    });
 });
 Route::get('home', 'HomeController@index')->name('home');
 

@@ -1,18 +1,35 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
 @section('styles')
 
 @endsection
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                @include('site.includes.notifications')
-                <div class="card">
-                    <div class="card-header">{{__('Ver empresa')}}</div>
+@section('title')
+    {{--<h4 class="d-none d-md-block">{{__('CAFA | BOLSA DE RESIDUOS REUTILIZABLES Y RECICLABLES')}}</h4>--}}
+@endsection
 
-                    <div class="card-body">
+@section('breadcrumb')
+    <ol class="breadcrumb d-none d-md-block">
+        <li class="breadcrumb-item" style="display: inline"><a href="#">Empresas</a></li>
+        <li class="breadcrumb-item active" style="display: inline"><a href="#">Ver perfil</a></li>
+    </ol>
+@endsection
+
+@section('content')
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
+                <div class="card">
+                    <header class="card-header">
+                        <h4 class="card-title">{{__('Ver Empresa')}}</h4>
+                        <ul class="card-controls">
+                            <li><a class="card-btn-slide" href="#"></a></li>
+                        </ul>
+                    </header>
+
+                    <div class="card-content">
+                        <div class="card-body">
                         <form id="show-form" method="POST">
                             @csrf
 
@@ -28,6 +45,9 @@
                             @endif
 
                             <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="text-light fw-400">Datos de la Empresa</h5>
+                                </div>
                                 <div class="form-group col-md-6">
                                     <label for="name">{{ Lang::get('Nombre') }}</label>
                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name', isset($user) ? $user['name'] : null) }}" required readonly="readonly">
@@ -71,7 +91,50 @@
                                 </div>
                             </div>
 
+                            <hr>
+
                             <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="text-light fw-400">Datos adicionales</h5>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="contact_person">{{ Lang::get('Persona de contacto') }}</label>
+                                    <input id="contact_person" type="text" class="form-control{{ $errors->has('contact_person') ? ' is-invalid' : '' }}" name="contact_person" value="{{ old('contact_person', isset($user) ? $user['contact_person'] : null) }}" required readonly="readonly">
+                                    @if ($errors->has('contact_person'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('contact_person') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="telephone">{{ Lang::get('Teléfono') }}</label>
+                                    <input id="telephone" type="number" minlength="9" maxlength="9" class="form-control{{ $errors->has('telephone') ? ' is-invalid' : '' }}" name="telephone" value="{{ old('telephone', isset($user) ? $user['telephone'] : null) }}" required readonly="readonly">
+                                    @if ($errors->has('telephone'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('telephone') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="email">{{ Lang::get('Email') }}</label>
+                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email', isset($user) ? $user['email'] : null) }}" required readonly="readonly">
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="text-light fw-400">Dirección</h5>
+                                </div>
                                 <div class="form-group col-md-12">
                                     <label for="address_line">{{ Lang::get('Domicilio') }}</label>
                                     <input id="address_line" type="text" class="form-control{{ $errors->has('address_line') ? ' is-invalid' : '' }}" name="address_line" value="{{ old('address_line', isset($address) ? $address['address_line'] : null) }}" required readonly="readonly">
@@ -115,41 +178,12 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="contact_person">{{ Lang::get('Persona de contacto') }}</label>
-                                    <input id="contact_person" type="text" class="form-control{{ $errors->has('contact_person') ? ' is-invalid' : '' }}" name="contact_person" value="{{ old('contact_person', isset($user) ? $user['contact_person'] : null) }}" required readonly="readonly">
-                                    @if ($errors->has('contact_person'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('contact_person') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            <hr>
 
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="telephone">{{ Lang::get('Teléfono') }}</label>
-                                    <input id="telephone" type="number" minlength="9" maxlength="9" class="form-control{{ $errors->has('telephone') ? ' is-invalid' : '' }}" name="telephone" value="{{ old('telephone', isset($user) ? $user['telephone'] : null) }}" required readonly="readonly">
-                                    @if ($errors->has('telephone'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('telephone') }}</strong>
-                                    </span>
-                                    @endif
+                                <div class="col-md-12">
+                                    <h5 class="text-light fw-400">Huella de Carbono</h5>
                                 </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="email">{{ Lang::get('Email') }}</label>
-                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email', isset($user) ? $user['email'] : null) }}" required readonly="readonly">
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="carbon_footprint">Inscrita en el Registro de Huella de Carbono</label>
                                     <input id="carbon_footprint" type="text" class="form-control{{ $errors->has('carbon_footprint') ? ' is-invalid' : '' }}" name="carbon_footprint" value="{{ old('carbon_footprint', isset($user) ? $user['carbon_footprint'] == 1 ? "SÍ" : "NO" : null) }}" required readonly="readonly">
@@ -172,11 +206,18 @@
                             </div>
 
                         </form>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header">{{__('Datos a efecto de notificación')}}</div>
+                    <header class="card-header">
+                        <h4 class="card-title">{{__('Datos a efecto de notificación')}}</h4>
+                        <ul class="card-controls">
+                            <li><a class="card-btn-slide" href="#"></a></li>
+                        </ul>
+                    </header>
 
+                    <div class="card-content">
                     <div class="card-body">
                         <form id="register-form" method="POST" action="{{isset($waste) ? URL::to('user/update') : URL::to('user/create')}}">
                             @csrf
@@ -194,6 +235,9 @@
 
                             <fieldset id="form_notification_data">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-light fw-400">Dirección</h5>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <label for="not_address_line">{{ Lang::get('Domicilio') }}</label>
                                         <input id="not_address_line" type="text" class="form-control{{ $errors->has('not_address_line') ? ' is-invalid' : '' }}" name="not_address_line" value="{{ old('not_address_line', isset($not_address) ? $not_address['address_line'] : null) }}" required readonly="readonly">
@@ -237,8 +281,13 @@
                                     </div>
                                 </div>
 
+                                <hr>
+
                                 <div class="row">
-                                    <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <h5 class="text-light fw-400">Datos adicionales</h5>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label for="not_contact_person">{{ Lang::get('Persona de contacto') }}</label>
                                         <input id="not_contact_person" type="text" class="form-control{{ $errors->has('not_contact_person') ? ' is-invalid' : '' }}" name="not_contact_person" value="{{ old('not_contact_person', isset($notification) ? $notification['contact_person'] : null) }}" required readonly="readonly">
                                         @if ($errors->has('not_contact_person'))
@@ -247,10 +296,8 @@
                                     </span>
                                         @endif
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label for="not_telephone">{{ Lang::get('Teléfono') }}</label>
                                         <input id="not_telephone" type="number" minlength="9" maxlength="9" class="form-control{{ $errors->has('not_telephone') ? ' is-invalid' : '' }}" name="not_telephone" value="{{ old('not_telephone', isset($notification) ? $notification['telephone'] : null) }}" required readonly="readonly">
                                         @if ($errors->has('not_telephone'))
@@ -260,7 +307,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label for="not_email">{{ Lang::get('Email') }}</label>
                                         <input id="not_email" type="email" class="form-control{{ $errors->has('not_email') ? ' is-invalid' : '' }}" name="not_email" value="{{ old('not_email', isset($notification) ? $notification['email'] : null) }}" required readonly="readonly">
                                         @if ($errors->has('not_email'))
@@ -270,14 +317,16 @@
                                         @endif
                                     </div>
                                 </div>
+
                             </fieldset>
 
                         </form>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
 @endsection
 
 @section('scripts')

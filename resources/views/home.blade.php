@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
-                                <h4 class="card-title bg-info text-white">Publicados</h4>
+                                <h4 class="card-title bg-info text-white">Publicaciones</h4>
                                 <div class="card-body text-center">
                                     <h1 class="card-title">{{$total_waste}}</h1>
                                     <a href="{{URL::to('waste/user/published')}}" class="btn btn-secondary w-full">Consultar</a>
@@ -33,7 +33,7 @@
 
                         <div class="col-md-4">
                             <div class="card">
-                                <h4 class="card-title bg-info text-white">Cedidos</h4>
+                                <h4 class="card-title bg-info text-white">Cesiones</h4>
                                 <div class="card-body text-center">
                                     <h1 class="card-title">{{$total_transfers}}</h1>
                                     {{--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}
@@ -45,7 +45,7 @@
 
                         <div class="col-md-4">
                             <div class="card">
-                                <h4 class="card-title bg-info text-white">Solicitados</h4>
+                                <h4 class="card-title bg-info text-white">Solicitudes</h4>
                                 <div class="card-body text-center">
                                     <h1 class="card-title">{{$total_requests}}</h1>
                                     {{--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>--}}

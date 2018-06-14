@@ -105,11 +105,13 @@
                         <thead>
                         <tr>
                             <th>{{__('Nombre')}}</th>
+                            <th>{{__('Tipo')}}</th>
                             <th>{{__('Cantidad')}}</th>
                             <th>{{__('Código CER')}}</th>
                             <th>{{__('Fecha de Disponibilidad')}}</th>
                             <th>{{__('Empresa Propietaria')}}</th>
                             <th>{{__('Fecha de Solicitud')}}</th>
+                            <th>{{__('Estado')}}</th>
                             <th>{{__('Acciones')}}</th>
                         </tr>
                         </thead>
@@ -154,11 +156,13 @@
                 },
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
-                    { "data": "quantity" },
-                    { "data": "cer_code" },
-                    { "data": "pickup_date" },
-                    { "data": "creator_name" },
-                    { "data": "request_date" },
+                    { "data": "type", "responsivePriority": 9},
+                    { "data": "quantity", "responsivePriority": 5 },
+                    { "data": "cer_code", "responsivePriority": 4 },
+                    { "data": "pickup_date", "responsivePriority": 8 },
+                    { "data": "creator_name", "responsivePriority": 7 },
+                    { "data": "request_date", "responsivePriority": 6 },
+                    { "data": "status", "responsivePriority": 3 },
                     { "data": "action", "orderable": false, "responsivePriority": 2, "targets": -1 },
                 ],
                 order: [2, 'asc'],
@@ -168,7 +172,65 @@
                 },
                 "searching": false,
                 "drawCallback": function( settings ) {
+                    $('.cancel-request').click(function () {
+                        var transfer_id = $(this).data('transfer_id');
+                        swal({
+                            title: 'Aceptar',
+                            text: "¿Estás seguro de cancelar esta solicitud?",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-secondary',
+                            buttonsStyling: false,
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.value) {
+                            $.ajax({
+                                data: {"transfer_id" : transfer_id, "_token" : "{{csrf_token()}}" },
+                                type: "POST",
+                                dataType: "json",
+                                url: "{{URL::to('transfer/cancel')}}",
+                                success: function(data) {
+                                    if(data.result == "success"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'success',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }else{
+                                        swal({
+                                            position: 'center',
+                                            type: 'error',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }
 
+                                    request_table.draw();
+
+                                },
+                                error: function() {
+                                    swal({
+                                        position: 'center',
+                                        type: 'error',
+                                        title: 'Se ha producido un error al procesar la cancelación de la solicitud.',
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    });
+
+                                    request_table.draw();
+
+                                }
+                            });
+
+
+                        }
+                    });
+                    });
                 }
             });
 

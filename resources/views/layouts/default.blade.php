@@ -88,7 +88,7 @@
                     <li class="menu-item">
                         <a class="menu-link" href="{{URL::to('waste/user/published')}}">
                             <span class="dot"></span>
-                            <span class="title">Publicados</span>
+                            <span class="title">Publicaciones</span>
                         </a>
                     </li>
 
@@ -102,7 +102,7 @@
                     <li class="menu-item">
                         <a class="menu-link" href="{{URL::to('waste/user/requests')}}">
                             <span class="dot"></span>
-                            <span class="title">Solicitados</span>
+                            <span class="title">Solicitudes</span>
                         </a>
                     </li>
                 </ul>
