@@ -165,7 +165,7 @@
                 },
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
-                    { "data": "type", "responsivePriority": 9},
+                    { "data": "type", "responsivePriority": 9, "visible" : false},
                     { "data": "quantity", "responsivePriority": 3},
                     { "data": "cer_code", "responsivePriority": 4 },
                     { "data": "generation_date", "responsivePriority": 7 },
@@ -181,6 +181,11 @@
                 },
                 "searching": false,
                 "drawCallback": function( settings ) {
+
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    });
+
                     $('.request-waste').click(function () {
                         var waste_id = $(this).data('waste_id');
                         swal({

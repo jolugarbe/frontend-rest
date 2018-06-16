@@ -178,6 +178,72 @@
                 "searching": false,
                 "drawCallback": function( settings ) {
 
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    });
+
+                    $('.acquired-waste').click(function (e) {
+                        e.preventDefault();
+                        var waste_id = $(this).data('waste_id');
+                        swal({
+                            title: 'Conseguido',
+                            text: "¿Estás seguro de marcar como conseguido?",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-secondary',
+                            buttonsStyling: false,
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.value) {
+                            $.ajax({
+                                data: {"waste_id" : waste_id, "_token" : "{{csrf_token()}}" },
+                                type: "POST",
+                                dataType: "json",
+                                url: "{{URL::to('waste/acquired')}}",
+                                success: function(data) {
+                                    if(data.result == "success"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'success',
+                                            title: 'Correcto',
+                                            text: data.message,
+                                            showConfirmButton: false,
+                                            timer: 4000
+                                        });
+                                    }else{
+                                        swal({
+                                            position: 'center',
+                                            type: 'error',
+                                            title: 'Error',
+                                            text: data.message,
+                                            showConfirmButton: false,
+                                            timer: 4000
+                                        });
+                                    }
+
+                                    offer_table.draw();
+
+                                },
+                                error: function() {
+                                    swal({
+                                        position: 'center',
+                                        type: 'error',
+                                        title: 'Se ha producido un error al marcar el residuo como conseguido.',
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    });
+
+                                    offer_table.draw();
+
+                                }
+                            });
+
+                        }
+                    });
+                    });
+
                     $('.delete-waste').click(function (e) {
                         e.preventDefault();
                         var waste_id = $(this).data('waste_id');

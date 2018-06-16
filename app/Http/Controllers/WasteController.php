@@ -588,4 +588,30 @@ class WasteController extends Controller
         }
 
     }
+
+
+    public function postWasteProposal(Request $request){
+        try{
+            $response = $this->wasteRepo->wasteProposal($request->all());
+            $content = json_decode(json_encode($response['body']), true);
+            $result = $content['message'];
+            return array('result' => 'success', 'message' => $result);
+        }catch (\Exception $exception){
+            return array('result' => 'error', 'message' => 'Se ha producido un error al enviar la propuesta.');
+        }
+
+    }
+
+
+    public function postAcquiredWaste(Request $request){
+        try{
+            $response = $this->wasteRepo->wasteAcquired($request->all());
+            $content = json_decode(json_encode($response['body']), true);
+            $result = $content['message'];
+            return array('result' => 'success', 'message' => $result);
+        }catch (\Exception $exception){
+            return array('result' => 'error', 'message' => 'Se ha producido un error al marcar el residuo como conseguido.');
+        }
+
+    }
 }

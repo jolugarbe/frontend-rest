@@ -172,6 +172,10 @@
                 },
                 "searching": false,
                 "drawCallback": function( settings ) {
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    });
+
                     $('.cancel-request').click(function () {
                         var transfer_id = $(this).data('transfer_id');
                         swal({

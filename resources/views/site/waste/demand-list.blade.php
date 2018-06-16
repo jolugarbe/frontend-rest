@@ -131,7 +131,51 @@
                 </div>
             </div>
         </div>
-
+        <div class="modal modal-center fade" id="modal-center" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Realizar propuesta <small>(Se enviará un correo electrónico)</small></h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <form id="contact_form">
+                        <input type="hidden" id="contact_waste_id" name="contact_waste_id" value="">
+                        <input type="hidden" id="contact_receiver_id" name="contact_receiver_id" value="">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="contact_waste_name">{{ Lang::get('Residuo demandado') }}</label>
+                                <input id="contact_waste_name" type="text" class="form-control{{ $errors->has('contact_waste_name') ? ' is-invalid' : '' }}" name="contact_waste_name" value="" required readonly="readonly">
+                                @if ($errors->has('contact_waste_name'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('contact_waste_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="contact_proposal">{{ Lang::get('Propuesta') }}</label>
+                                <textarea id="contact_proposal" class="form-control{{ $errors->has('contact_proposal') ? ' is-invalid' : '' }}" rows="3" name="contact_proposal" required></textarea>
+                                @if ($errors->has('contact_proposal'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('contact_proposal') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-bold btn-pure btn-primary">Enviar</button>
+                    </div>
+                    </form>
+                    <div id="spinner_form" style="height: 200px; width: 100%">
+                        <div class="spinner-circle-shadow" style="position: absolute; top: 50%; left: 50%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -172,7 +216,7 @@
                 },
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
-                    { "data": "type", "responsivePriority": 8},
+                    { "data": "type", "responsivePriority": 8, "visible": false},
                     { "data": "quantity", "responsivePriority": 3},
                     { "data": "cer_code", "responsivePriority": 4 },
 //                    { "data": "generation_date", "responsivePriority": 7 },
@@ -188,65 +232,27 @@
                 },
                 "searching": false,
                 "drawCallback": function( settings ) {
-                    $('.request-waste').click(function () {
-                        var waste_id = $(this).data('waste_id');
-                        swal({
-                            title: 'Solicitar',
-                            text: "¿Estás seguro de solicitar este residuo?",
-                            type: 'warning',
-                            showCancelButton: true,
-                            confirmButtonClass: 'btn btn-primary',
-                            cancelButtonClass: 'btn btn-secondary',
-                            buttonsStyling: false,
-                            cancelButtonText: 'Cancelar',
-                            confirmButtonText: 'Aceptar'
-                        }).then((result) => {
-                            if (result.value) {
-                            $.ajax({
-                                data: {"waste_id" : waste_id, "_token" : "{{csrf_token()}}" },
-                                type: "POST",
-                                dataType: "json",
-                                url: "{{URL::to('waste/request')}}",
-                                success: function(data) {
-                                    if(data.result == "success"){
-                                        swal({
-                                            position: 'center',
-                                            type: 'success',
-                                            title: data.message,
-                                            showConfirmButton: false,
-                                            timer: 3500
-                                        });
-                                    }else{
-                                        swal({
-                                            position: 'center',
-                                            type: 'error',
-                                            title: data.message,
-                                            showConfirmButton: false,
-                                            timer: 3500
-                                        });
-                                    }
-
-                                    demand_table.draw();
-
-                                },
-                                error: function() {
-                                    swal({
-                                        position: 'center',
-                                        type: 'error',
-                                        title: 'Se ha producido un error al tramitar la solicitud.',
-                                        showConfirmButton: false,
-                                        timer: 3500
-                                    });
-
-                                    demand_table.draw();
-
-                                }
-                            });
-
-
-                        }
-                        });
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
                     });
+
+                    // Proposal modal
+                    $('.contact-waste').click(function () {
+                        $('#contact_form').show();
+                        $('#spinner_form').hide();
+
+                        var waste_id = $(this).data('waste_id');
+                        var receiver_id = $(this).data('receiver_id');
+                        var waste_name = $(this).data('waste_name');
+
+                        $('#contact_waste_id').val(waste_id);
+                        $('#contact_receiver_id').val(receiver_id);
+                        $('#contact_waste_name').val(waste_name);
+                        $('#contact_proposal').val('');
+
+                        $('#modal-center').modal('show');
+                    });
+
                 }
 
             });
@@ -262,6 +268,63 @@
                     demand_table.draw();
                 }, 200 );
             } );
+
+            $('#contact_form').validate({
+                rules: {
+                    "contact_proposal": {
+                        required: true
+                    }
+                },
+                submitHandler: function (form) {
+//                    $('.btn-submit').prop('disabled', true);
+//                    $(".preloader").fadeIn("slow");
+                    $('#contact_form').hide();
+                    $('#spinner_form').show();
+                    var waste_id = $('#contact_waste_id').val();
+                    var receiver_id = $('#contact_receiver_id').val();
+                    var proposal = $('#contact_proposal').val();
+
+                    $.ajax({
+                        data: {"waste_id" : waste_id, "receiver_id" : receiver_id, "proposal" : proposal, "_token" : "{{csrf_token()}}" },
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{URL::to('waste/demand/proposal')}}",
+                        success: function(data) {
+                            $('#modal-center').modal('hide');
+                            if(data.result == "success"){
+                                swal({
+                                    position: 'center',
+                                    type: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                });
+                            }else{
+                                swal({
+                                    position: 'center',
+                                    type: 'error',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                });
+                            }
+
+                        },
+                        error: function() {
+                            $('#modal-center').modal('hide');
+                            swal({
+                                position: 'center',
+                                type: 'error',
+                                title: 'Se ha producido un error al enviar la propuesta.',
+                                showConfirmButton: false,
+                                timer: 3500
+                            });
+
+                        }
+                    });
+
+                }
+            });
 
         });
 

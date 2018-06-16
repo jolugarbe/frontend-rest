@@ -87,7 +87,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="f_request_date">Fecha de Cesión</label>
+                                    <label for="f_request_date">Fecha de Solicitud</label>
                                     <input class="form-control filters" id="f_request_date" name="f_request_date" type="text">
                                 </div>
                             </div>
@@ -173,6 +173,11 @@
                 },
                 "searching": false,
                 "drawCallback": function( settings ) {
+
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    });
+
                     $('.accept-request').click(function () {
                         var transfer_id = $(this).data('transfer_id');
                         swal({
