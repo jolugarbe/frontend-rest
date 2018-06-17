@@ -123,6 +123,17 @@
 
     </div>
 
+    <div class="modal modal-center fade" id="modal-center" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="spinner_form" style="height: 200px; width: 100%; text-align: center">
+                    <h5 style="position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%);">Procesando...</h5>
+                    <div class="spinner-ball" style="position: fixed; top: 50%; left: 50%; margin-left: -25px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -192,12 +203,14 @@
                             confirmButtonText: 'Aceptar'
                         }).then((result) => {
                             if (result.value) {
+                                $('#modal-center').modal('show');
                             $.ajax({
                                 data: {"transfer_id" : transfer_id, "_token" : "{{csrf_token()}}" },
                                 type: "POST",
                                 dataType: "json",
                                 url: "{{URL::to('transfer/accept')}}",
                                 success: function(data) {
+                                    $('#modal-center').modal('hide');
                                     if(data.result == "success"){
                                         swal({
                                             position: 'center',
@@ -220,6 +233,7 @@
 
                                 },
                                 error: function() {
+                                    $('#modal-center').modal('hide');
                                     swal({
                                         position: 'center',
                                         type: 'error',
@@ -252,12 +266,14 @@
                             confirmButtonText: 'Aceptar'
                         }).then((result) => {
                             if (result.value) {
+                            $('#modal-center').modal('show');
                             $.ajax({
                                 data: {"transfer_id" : transfer_id, "_token" : "{{csrf_token()}}" },
                                 type: "POST",
                                 dataType: "json",
                                 url: "{{URL::to('transfer/decline')}}",
                                 success: function(data) {
+                                    $('#modal-center').modal('hide');
                                     if(data.result == "success"){
                                         swal({
                                             position: 'center',
@@ -280,6 +296,7 @@
 
                                 },
                                 error: function() {
+                                    $('#modal-center').modal('hide');
                                     swal({
                                         position: 'center',
                                         type: 'error',

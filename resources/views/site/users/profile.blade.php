@@ -1,5 +1,12 @@
 @extends('layouts.default')
 
+@section('breadcrumb')
+    <ol class="breadcrumb d-none d-md-block">
+        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('user/profile')}}">Mi Perfil</a></li>
+        {{--<li class="breadcrumb-item active" style="display: inline"><a href="#">Cesión</a></li>--}}
+    </ol>
+@endsection
+
 @section('content')
 
     <div class="row">

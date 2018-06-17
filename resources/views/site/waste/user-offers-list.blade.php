@@ -22,7 +22,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb d-none d-md-block">
         <li class="breadcrumb-item" style="display: inline"><a href="#">Mis Residuos</a></li>
-        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('waste/user/published')}}">Publicados</a></li>
+        <li class="breadcrumb-item active" style="display: inline"><a href="{{URL::to('waste/user/published')}}">Publicaciones</a></li>
     </ol>
 @endsection
 

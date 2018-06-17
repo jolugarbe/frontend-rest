@@ -122,6 +122,17 @@
         </div>
 
     </div>
+
+    <div class="modal modal-center fade" id="modal-center" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="spinner_form" style="height: 200px; width: 100%; text-align: center">
+                    <h5 style="position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%);">Procesando...</h5>
+                    <div class="spinner-ball" style="position: fixed; top: 50%; left: 50%; margin-left: -25px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -156,7 +167,7 @@
                 },
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
-                    { "data": "type", "responsivePriority": 9},
+                    { "data": "type", "responsivePriority": 9, "visible": false},
                     { "data": "quantity", "responsivePriority": 5 },
                     { "data": "cer_code", "responsivePriority": 4 },
                     { "data": "pickup_date", "responsivePriority": 8 },
@@ -190,12 +201,14 @@
                             confirmButtonText: 'Aceptar'
                         }).then((result) => {
                             if (result.value) {
+                            $('#modal-center').modal('show');
                             $.ajax({
                                 data: {"transfer_id" : transfer_id, "_token" : "{{csrf_token()}}" },
                                 type: "POST",
                                 dataType: "json",
                                 url: "{{URL::to('transfer/cancel')}}",
                                 success: function(data) {
+                                    $('#modal-center').modal('hide');
                                     if(data.result == "success"){
                                         swal({
                                             position: 'center',
@@ -218,6 +231,7 @@
 
                                 },
                                 error: function() {
+                                    $('#modal-center').modal('hide');
                                     swal({
                                         position: 'center',
                                         type: 'error',

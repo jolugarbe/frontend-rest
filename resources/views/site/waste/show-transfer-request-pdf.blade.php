@@ -74,6 +74,15 @@
             @include('site.waste.includes.waste-transfer-request-pdf')
         @endif
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel @if($status_transfer_id == 1) panel-warning @elseif($status_transfer_id == 4) panel-success @else panel-danger @endif">
+                    <div class="panel-heading text-center">
+                        <h2 class="panel-title">Este trámite se encuentra en el estado: <strong>{{$status_transfer_name}}</strong></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div><!--/.main-content -->
 

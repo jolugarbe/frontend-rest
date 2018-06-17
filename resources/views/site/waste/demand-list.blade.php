@@ -170,8 +170,9 @@
                         <button type="submit" class="btn btn-bold btn-pure btn-primary">Enviar</button>
                     </div>
                     </form>
-                    <div id="spinner_form" style="height: 200px; width: 100%">
-                        <div class="spinner-circle-shadow" style="position: absolute; top: 50%; left: 50%;"></div>
+                    <div id="spinner_form" style="height: 200px; width: 100%; text-align: center">
+                        <h5 style="position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%);">Procesando...</h5>
+                        <div class="spinner-ball" style="position: fixed; top: 50%; left: 50%; margin-left: -25px;"></div>
                     </div>
                 </div>
             </div>
