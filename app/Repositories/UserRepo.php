@@ -76,4 +76,12 @@ class UserRepo extends GuzzleHttpRequest
         $response = $this->post('reset-pass/update-password', $data);
         return $response;
     }
+
+
+    // ADMIN
+    public function adminDashboard()
+    {
+        $response = $this->post('admin/dashboard-data', false);
+        return $response;
+    }
 }

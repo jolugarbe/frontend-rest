@@ -67,6 +67,16 @@ Route::middleware(['cookie'])->group(function () {
         Route::post('decline', 'TransferController@postDeclineTransfer');
         Route::post('cancel', 'TransferController@postCancelTransfer');
     });
+
+    Route::middleware(['role.admin'])->group(function () {
+
+        Route::prefix('admin')->group(function () {
+
+            Route::get('dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+
+        });
+    });
+
 });
 Route::get('home', 'HomeController@index')->name('home');
 

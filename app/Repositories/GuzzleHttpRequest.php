@@ -29,7 +29,7 @@ class GuzzleHttpRequest
 
     protected function post($url, $data = false, $token = null)
     {
-        $token = \Request::cookie('front_us_token', null);
+        $token = \Request::cookie('user_token', null);
 
         if($data)
         {

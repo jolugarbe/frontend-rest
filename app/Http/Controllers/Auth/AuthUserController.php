@@ -58,11 +58,15 @@ class AuthUserController extends Controller
                 // Convert body std object to array
                 $content = json_decode(json_encode($result['body']), true);
                 // Create a cookie and send to the browser
-                $token = cookie('front_us_token', $content['token']);
-                $user = $content['user'];
-                $user_data = cookie('front_us_data', $user['name']);
+                $token = cookie('user_token', $content['token']);
 
-                return redirect()->to('home')->withCookie($token)->withCookie($user_data);
+                if($content['role_admin']){
+                    $admin = cookie('user_admin', true);
+                    return redirect()->to('admin/dashboard')->withCookie($token)->withCookie($admin);
+                }else{
+                    return redirect()->to('home')->withCookie($token);
+                }
+
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar iniciar sesión. Disculpe las molestias.');
             }
@@ -87,7 +91,7 @@ class AuthUserController extends Controller
     public function postLogout(Request $request){
 
         $result = $this->userRepo->logout();
-        return redirect('/')->withCookie(Cookie::forget('front_us_data'))->withCookie(Cookie::forget('front_us_token'));
+        return redirect('/')->withCookie(Cookie::forget('user_token'))->withCookie(Cookie::forget('user_admin'));
     }
 
     public function postUserEmailReset(Request $request){

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CookieAuth
+class RoleAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,11 @@ class CookieAuth
      */
     public function handle($request, Closure $next)
     {
-        $token = \Request::cookie('user_token', null);
+        $token = \Request::cookie('user_admin', null);
         if($token){
             return $next($request);
         }else{
-            return redirect()->to('login')->with('error', 'Necesitas iniciar sesión para acceder a esta página.');
+            return redirect()->back()->with('error', 'Necesitas permisos de administrador para acceder a esta página.');
         }
-
     }
 }
