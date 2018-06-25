@@ -52,48 +52,49 @@
         <div class="topbar-left">
             <span class="topbar-btn topbar-menu-toggler"><i>☰</i></span>
             <span class="topbar-brand"><img src="{{URL::to('images/theme/full-logo-black-2.png')}}" alt="logo"></span>
+            {{--<span class="topbar-brand"><img src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></span>--}}
 
             <div class="topbar-divider d-none d-xl-block"></div>
 
-            <nav class="topbar-navigation">
-                <ul class="menu">
+            {{--<nav class="topbar-navigation">--}}
+                {{--<ul class="menu">--}}
 
-                    <li class="menu-item">
-                        <a class="menu-link" href="../index.html">
-                            <span class="title">Sección 1</span>
-                        </a>
-                    </li>
-
-
-                    <li class="menu-item active">
-                        <a class="menu-link" href="#">
-                            <span class="title">Sección 2</span>
-                        </a>
-                    </li>
+                    {{--<li class="menu-item">--}}
+                        {{--<a class="menu-link" href="../index.html">--}}
+                            {{--<span class="title">Sección 1</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
 
-                    <li class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="title">Sección 3</span>
-                        </a>
-                    </li>
+                    {{--<li class="menu-item active">--}}
+                        {{--<a class="menu-link" href="#">--}}
+                            {{--<span class="title">Sección 2</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
 
-                    <li class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="title">Sección 4</span>
-                        </a>
-                    </li>
+                    {{--<li class="menu-item">--}}
+                        {{--<a class="menu-link" href="#">--}}
+                            {{--<span class="title">Sección 3</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
 
-                    <li class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="title">Sección 5</span>
-                        </a>
-                    </li>
+                    {{--<li class="menu-item">--}}
+                        {{--<a class="menu-link" href="#">--}}
+                            {{--<span class="title">Sección 4</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
-                </ul>
-            </nav>
+
+                    {{--<li class="menu-item">--}}
+                        {{--<a class="menu-link" href="#">--}}
+                            {{--<span class="title">Sección 5</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+
+                {{--</ul>--}}
+            {{--</nav>--}}
         </div>
 
         <div class="topbar-right">
@@ -177,8 +178,9 @@
     <footer class="site-footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <p class="text-center text-md-left">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>
+                <div class="col-md-6 text-center text-md-left">
+                    <a href="http://www.dipusevilla.es/" target="_parent"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+                    {{--<span><strong>Diputación de Sevilla.</strong><br>Avda. Menéndez y Pelayo, 32.<br>41071 Sevilla, España.</span>--}}
                 </div>
 
                 <div class="col-md-6">
@@ -193,8 +195,14 @@
                             <a class="nav-link" href="#">Política de privacidad</a>
                         </li>
                     </ul>
+                    <p class="text-center text-sm-center text-md-right">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>
                 </div>
             </div>
+            {{--<div class="row">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<p class="text-center">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         </div>
     </footer>
     <!-- END Footer -->

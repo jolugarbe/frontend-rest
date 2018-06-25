@@ -180,8 +180,9 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="row">
-            <div class="col-md-6">
-                <p class="text-center text-md-left">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>
+            <div class="col-md-6 text-center text-md-left">
+                <a href="http://www.dipusevilla.es/" target="_parent"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+                {{--<p class="text-center text-md-left">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>--}}
             </div>
 
             <div class="col-md-6">
@@ -196,6 +197,7 @@
                         <a class="nav-link" href="#">Política de privacidad</a>
                     </li>
                 </ul>
+                <p class="text-center text-sm-center text-md-right">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
