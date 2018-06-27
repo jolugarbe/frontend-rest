@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Repositories\UserRepo;
 use App\Repositories\WasteRepo;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 
@@ -299,37 +301,251 @@ class WasteController extends Controller
 
     public function postOffersData(Request $request){
         $response = $this->wasteRepo->userOffersWasteData($request->all());
-        $content = json_decode(json_encode($response['body']), true);
-        $data = json_encode($content);
-        return $data;
+        // Object stdClass with assoc false; if assoc true convert to array
+        $content = json_decode(json_encode($response['body']), false);
+        return datatables()
+            ->of($content)
+            ->editColumn('t_ad_id', function ($waste) {
+                $type = '';
+                if ($waste->t_ad_id == 1)
+                    $type .= '<span class="badge badge-primary">Oferta</span>';
+                else{
+                    $type .= '<span class="badge badge-purple text-white">Demanda</span> -> ';
+
+                    if($waste->acquired){
+                        $type .= '<span class="badge badge-success text-white">Conseguido</span>';
+                    }else{
+                        $type .= '<span class="badge badge-yellow text-white">Pendiente</span>';
+                    }
+                }
+
+
+                return $type;
+            })
+            ->editColumn('dangerous', function ($waste) {
+                if ($waste->dangerous == 1)
+                    return "SÍ";
+                else
+                    return "NO";
+            })
+            ->editColumn('quantity', function ($waste) {
+                $quantity = $waste->quantity . " " . $waste->measured_unit;
+                return $quantity;
+            })
+            ->editColumn('generation_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->generation_date)->format('d/m/Y');
+            })
+            ->addColumn('action', function ($waste) {
+                $url_update = URL::to('/waste/update/'.$waste->id);
+                $url_delete = URL::to('/waste/delete/'.$waste->id);
+                $links = '';
+
+                if($waste->t_ad_id == 2 && !$waste->acquired){
+                    $links .= '<a data-waste_id="'.$waste->id.'" class="acquired-waste btn btn-square btn-success text-white m-1" data-toggle="tooltip" data-placement="top" title="Marcar como conseguido"><i class="fa fa-check" aria-hidden="true"></i></a>';
+                }
+
+                if(!$waste->acquired)
+                    $links .= '<a href="'.$url_update.'" class="btn btn-square btn-info m-1" data-toggle="tooltip" data-placement="top" title="Editar publicación"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+
+                $links .= '<a href="'.$url_delete.'" id="'.$waste->id.'" data-waste_id="'.$waste->id.'" class="delete-waste btn btn-square btn-danger m-1"  data-toggle="tooltip" data-placement="top" title="Eliminar publicación"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+
+                return $links;
+            })
+            ->rawColumns(['action', 't_ad_id', 'quantity'])
+            ->make(true);
     }
 
     public function postAvailableData(Request $request){
         $response = $this->wasteRepo->availableListData($request->all());
-        $content = json_decode(json_encode($response['body']), true);
-        $data = json_encode($content);
-        return $data;
+        $content = json_decode(json_encode($response['body']), false);
+        return datatables()
+            ->of($content)
+            ->editColumn('quantity', function ($waste) {
+                $quantity = $waste->quantity . " " . $waste->measured_unit;
+                return $quantity;
+            })
+            ->editColumn('creator_name', function ($waste) {
+                $url = URL::to('user/show/'.$waste->creator_user_id);
+                $link = '<a href="'.$url.'" target="_blank">'.$waste->creator_name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+                return $link;
+            })
+            ->editColumn('pickup_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->pickup_date)->format('d/m/Y');
+            })
+            ->editColumn('generation_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->generation_date)->format('d/m/Y');
+            })
+            ->editColumn('dangerous', function ($waste) {
+                return $waste->dangerous == 1 ? "SÍ" : "NO";
+            })
+            ->addColumn('action', function ($waste) {
+                $url_demand = URL::to('/waste/demand/'.$waste->id);
+                $url_show_waste = URL::to('/waste/show/'.$waste->id);
+                $links = '';
+                $links .= '<a target="_blank" href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a class="btn btn-success request-waste text-white" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Solicitar residuo"><i class="fa fa-hand-paper-o" aria-hidden="true"></i></a>';
+
+                return $links;
+            })
+            ->rawColumns(['action', 'creator_name'])
+            ->make(true);
     }
 
     public function postDemandData(Request $request){
         $response = $this->wasteRepo->demandListData($request->all());
-        $content = json_decode(json_encode($response['body']), true);
-        $data = json_encode($content);
-        return $data;
+        $content = json_decode(json_encode($response['body']), false);
+        return datatables()
+            ->of($content)
+            ->editColumn('quantity', function ($waste) {
+                $quantity = $waste->quantity . " " . $waste->measured_unit;
+                return $quantity;
+            })
+            ->editColumn('creator_name', function ($waste) {
+                $url = URL::to('user/show/'.$waste->creator_user_id);
+                $link = '<a href="'.$url.'" target="_blank">'.$waste->creator_name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+                return $link;
+            })
+//            ->editColumn('pickup_date', function (Waste $waste) {
+//                return Carbon::createFromFormat('Y-m-d', $waste->pickup_date)->format('d/m/Y');
+//            })
+//            ->editColumn('generation_date', function (Waste $waste) {
+//                return Carbon::createFromFormat('Y-m-d', $waste->generation_date)->format('d/m/Y');
+//            })
+            ->editColumn('publication_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d H:i:s', $waste->publication_date)->format('d/m/Y');
+            })
+            ->editColumn('dangerous', function ($waste) {
+                return $waste->dangerous == 1 ? "SÍ" : "NO";
+            })
+            ->addColumn('action', function ($waste) {
+                $url_demand = URL::to('waste/demand/'.$waste->id);
+                $url_show_waste = URL::to('waste/show/'.$waste->id);
+                $links = '';
+                $links .= '<a target="_blank" href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a class="btn btn-success contact-waste text-white" data-receiver_id="'.$waste->creator_user_id.'" data-waste_name="'.$waste->name.'" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Contactar con demandante"><i class="fa fa-envelope" aria-hidden="true"></i></a>';
+
+                return $links;
+            })
+            ->rawColumns(['action', 'creator_name'])
+            ->make(true);
     }
 
     public function postTransfersData(Request $request){
         $response = $this->wasteRepo->userTransfersWasteData($request->all());
-        $content = json_decode(json_encode($response['body']), true);
-        $data = json_encode($content);
-        return $data;
+        $content = json_decode(json_encode($response['body']), false);
+        return datatables()
+            ->of($content)
+            ->editColumn('name', function ($waste) {
+                $url = URL::to('waste/show/'.$waste->id);
+                $name = '<a href="'.$url.'" target="_blank">'.$waste->name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+                return $name;
+            })
+            ->editColumn('request_name', function ($waste) {
+                $url = URL::to('user/show/'.$waste->owner_user_id);
+                $link = '<a href="'.$url.'" target="_blank">'.$waste->request_name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+
+                return $link;
+            })
+            ->editColumn('status', function ($waste) {
+                $type = '';
+                if ($waste->status_id == 1)
+                    $type .= '<span class="badge badge-yellow" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 2)
+                    $type .= '<span class="badge badge-danger text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 3)
+                    $type .= '<span class="badge badge-danger text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 4)
+                    $type .= '<span class="badge badge-primary text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+
+                return $type;
+            })
+            ->editColumn('quantity', function ($waste) {
+                $quantity = $waste->quantity . " " . $waste->measured_unit;
+                return $quantity;
+            })
+            ->editColumn('pickup_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->pickup_date)->format('d/m/Y');
+            })
+            ->editColumn('request_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->request_date)->format('d/m/Y');
+            })
+            ->addColumn('action', function ($waste) {
+
+                $url_show_transfer = URL::to('waste/user/show-transfer/'.$waste->transfer_id);
+                $url_show_transfer_pdf = URL::to('waste/user/show-transfer/pdf/'.$waste->transfer_id);
+
+                $links = '';
+
+                if($waste->status_id == 1){
+                    $links .= '<a class="btn btn-success accept-request m-1 text-white" data-transfer_id="'.$waste->transfer_id.'" data-toggle="tooltip" data-placement="top" title="Aceptar solicitud"><i class="fa fa-check" aria-hidden="true"></i></a>';
+                    $links .= '<a class="btn btn-danger decline-request m-1 text-white" data-transfer_id="'.$waste->transfer_id.'" data-toggle="tooltip" data-placement="top" title="Rechazar solicitud"><i class="fa fa-close" aria-hidden="true"></i></a>';
+                }
+
+                $links .= '<a target="_blank" href="'.$url_show_transfer.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_transfer_pdf.'" class="btn btn-purple m-1" data-toggle="tooltip" data-placement="top" title="Descargar solicitud"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>';
+
+                return $links;
+            })
+            ->rawColumns(['action', 'status', 'name', 'request_name'])
+            ->make(true);
     }
 
     public function postRequestsData(Request $request){
         $response = $this->wasteRepo->userRequestsWasteData($request->all());
-        $content = json_decode(json_encode($response['body']), true);
-        $data = json_encode($content);
-        return $data;
+        $content = json_decode(json_encode($response['body']), false);
+        return datatables()
+            ->of($content)
+            ->editColumn('name', function ($waste) {
+                $url = URL::to('waste/show/'.$waste->id);
+                $name = '<a href="'.$url.'" target="_blank">'.$waste->name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+                return $name;
+            })
+            ->editColumn('creator_name', function ($waste) {
+                $url = URL::to('user/show/'.$waste->creator_user_id);
+                $link = '<a href="'.$url.'" target="_blank">'.$waste->creator_name.'   <i class="fa fa-external-link" aria-hidden="true"></i></a>';
+
+                return $link;
+            })
+            ->editColumn('status', function ($waste) {
+                $type = '';
+                if ($waste->status_id == 1)
+                    $type .= '<span class="badge badge-yellow" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 2)
+                    $type .= '<span class="badge badge-danger text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 3)
+                    $type .= '<span class="badge badge-danger text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+                elseif($waste->status_id == 4)
+                    $type .= '<span class="badge badge-primary text-white" data-toggle="tooltip" data-placement="top" title="'.Carbon::createFromFormat('Y-m-d H:i:s', $waste->updated_at)->format('d/m/Y H:i:s').'">'.$waste->status.'</span>';
+
+                return $type;
+            })
+            ->editColumn('quantity', function ($waste) {
+                $quantity = $waste->quantity . " " . $waste->measured_unit;
+                return $quantity;
+            })
+            ->editColumn('pickup_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->pickup_date)->format('d/m/Y');
+            })
+            ->editColumn('request_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d', $waste->request_date)->format('d/m/Y');
+            })
+            ->addColumn('action', function ($waste) {
+                $url_show_transfer = URL::to('waste/user/show-transfer/'.$waste->transfer_id);
+                $url_show_transfer_pdf = URL::to('waste/user/show-transfer/pdf/'.$waste->transfer_id);
+
+                $links = '';
+
+                if($waste->status_id == 1){
+                    $links .= '<a class="btn btn-danger cancel-request m-1 text-white" data-transfer_id="'.$waste->transfer_id.'" data-toggle="tooltip" data-placement="top" title="Cancelar solicitud"><i class="fa fa-close" aria-hidden="true"></i></a>';
+                }
+
+                $links .= '<a target="_blank" href="'.$url_show_transfer.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_transfer_pdf.'" class="btn btn-purple m-1" data-toggle="tooltip" data-placement="top" title="Descargar solicitud"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>';
+
+                return $links;
+            })
+            ->rawColumns(['action', 'name', 'creator_name', 'status'])
+            ->make(true);
     }
 
     public function postRequestWaste(Request $request){

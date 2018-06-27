@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
 
+        // FORCE TO GET THE URL FROM CONFIG
         /** @var \Illuminate\Routing\UrlGenerator $url */
         $url = $this->app['url'];
         // Force the application URL
