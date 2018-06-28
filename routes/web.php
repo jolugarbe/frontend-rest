@@ -60,6 +60,7 @@ Route::middleware(['cookie'])->group(function () {
         Route::get('show/{id}', 'UserController@getShowUser');
         Route::get('profile', 'UserController@getProfile');
         Route::post('update', 'UserController@postUpdate');
+        Route::post('password/update', 'UserController@postPasswordUpdate');
     });
 
     Route::prefix('transfer')->group(function () {

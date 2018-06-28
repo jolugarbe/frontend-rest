@@ -6,7 +6,11 @@
 
 @section('content')
     <div class="row">
+        <div class="col-md-8 offset-md-2 mb-4">
+            <a href="{{url()->previous()}}" class="btn btn-label btn-info"><label><i class="ti-arrow-left"></i></label> Volver</a>
+        </div>
         <div class="col-md-8 offset-md-2">
+
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">@if(isset($waste)) {{__('Actualizar residuo')}} @else {{__('Publicar residuo')}} @endif </h4>

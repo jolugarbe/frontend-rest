@@ -125,4 +125,36 @@ class UserController extends Controller
         }
 
     }
+
+    protected function postPasswordUpdate(Request $request){
+
+        try{
+            $result = $this->userRepo->updatePassword($request->all());
+
+            if($result['status'] == 200){
+                return redirect()->back()->with('success', 'Contraseña actualizada correctamente.');
+            }else{
+                return redirect()->back()->with('error', 'Ha ocurrido un error al actualizar su contraseña. Disculpe las molestias.');
+            }
+        }catch (ClientException $exception){
+
+            // Get the errors from the backend validation and return to the view.
+            $response = $exception->getResponse();
+            if($response->getStatusCode() == 422){
+                $errors = array();
+                foreach (json_decode($response->getBody()->getContents(), true) as $items){
+                    foreach ($items as $item){
+                        array_push($errors, $item[0]);
+                    }
+                }
+                return redirect()->back()->withInput()->with('error', 'No ha sido posible actualizar su contraseña por los siguientes motivos:')->with('validation_errors', $errors);
+            }else{
+                return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al actualizar su contraseña. Disculpe las molestias.');
+            }
+        }catch (\Exception $exception){
+            Log::error('USER UPDATE ERROR: '.$exception->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al actualizar su contraseña. Disculpe las molestias.');
+        }
+
+    }
 }

@@ -29,6 +29,10 @@
 @section('content')
     <div class="row">
 
+        <div class="col-md-12 mb-4">
+            <a class="btn btn-purple float-right" href="{{URL::to('waste/create')}}">Publicar residuo</a>
+        </div>
+
         <div class="col-md-12">
             <div class="card">
                 <header class="card-header">

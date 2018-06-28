@@ -99,7 +99,7 @@
 
         <div class="topbar-right">
             <ul class="menu d-none d-lg-block d-xl-block">
-                @if(Cookie::get('front_us_token'))
+                @if(Cookie::get('user_token'))
                     <li class="menu-item">
                         <a class="menu-link" href="{{ url('/home') }}">
                             <span class="title">Panel de control</span>
@@ -129,7 +129,7 @@
             </ul>
 
             <ul class="topbar-btns d-block d-lg-none">
-                @if(Cookie::get('front_us_token'))
+                @if(Cookie::get('user_token'))
                     <li class="dropdown show">
                         <span class="topbar-btn" data-toggle="dropdown" aria-expanded="true"><i class="ti-user"></i></span>
                         <div class="dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 65px; left: -120px;">
