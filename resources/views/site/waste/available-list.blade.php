@@ -227,7 +227,16 @@
                                             showConfirmButton: false,
                                             timer: 3500
                                         });
-                                    }else{
+                                    }else if(data.result == "warning"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'warning',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }
+                                    else{
                                         swal({
                                             position: 'center',
                                             type: 'error',

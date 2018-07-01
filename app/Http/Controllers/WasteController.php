@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EnviarMail;
 use App\Repositories\UserRepo;
 use App\Repositories\WasteRepo;
 use Carbon\Carbon;
@@ -553,6 +554,44 @@ class WasteController extends Controller
             $response = $this->wasteRepo->requestWaste($request->all());
             $content = json_decode(json_encode($response['body']), true);
             $result = $content['message'];
+            $waste = json_decode($content['waste']);
+            try{
+                // Send to the owner of the waste
+                $is_owner = true;
+                $contenido = \View::make('emails.waste-transfer-request', compact('waste', 'is_owner'))->render();
+                $datos=[
+                    $content['owner_email'],
+                    $content['owner_email'],
+                    'admin@bolsacafa.com',
+                    'Admin',
+                    'Solicitud de cesión de residuo recibida',
+                    $contenido,
+                    null,
+                    null];
+
+                $mail=new EnviarMail($datos);
+                $this->dispatch($mail);
+
+//            // Send to the waste user request
+                $is_owner = false;
+                $contenido = \View::make('emails.waste-transfer-request', compact('waste', 'is_owner'))->render();
+                $datos=[
+                    $content['user_email'],
+                    $content['user_email'],
+                    'admin@bolsacafa.com',
+                    'Admin',
+                    'Solicitud de cesión de residuo enviada',
+                    $contenido,
+                    null,
+                    null];
+
+                $mail=new EnviarMail($datos);
+                $this->dispatch($mail);
+
+            }catch (\Exception $exception){
+                return array('result' => 'warning', 'message' => 'Solicitud realizada correctamente. Se ha producido un error al enviar el email de notificación.');
+            }
+
             return array('result' => 'success', 'message' => $result);
         }catch (\Exception $exception){
             return array('result' => 'error', 'message' => 'Se ha producido un error al tramitar la solicitud.');
@@ -822,8 +861,29 @@ class WasteController extends Controller
         try{
             $response = $this->wasteRepo->wasteProposal($request->all());
             $content = json_decode(json_encode($response['body']), true);
-            $result = $content['message'];
-            return array('result' => 'success', 'message' => $result);
+            $user = $content['user'];
+            $creator = $content['creator'];
+            $waste = $content['waste'];
+            $proposal = $content['proposal'];
+            $notify_creator = $content['notification_creator'];
+            $notify_user = $content['notification_user'];
+
+            // Send to the waste user creator
+            $contenido = \View::make('emails.proposal-waste', compact('waste', 'user', 'creator', 'proposal', 'notify_user'))->render();
+            $datos=[
+                $notify_creator['email'],
+                $notify_creator['email'],
+                'admin@bolsacafa.com',
+                'Admin',
+                'Propuesta sobre residuo demandado',
+                $contenido,
+                null,
+                null];
+
+            $mail=new EnviarMail($datos);
+            $this->dispatch($mail);
+
+            return array('result' => 'success', 'message' => 'Propuesta enviada correctamente.');
         }catch (\Exception $exception){
             return array('result' => 'error', 'message' => 'Se ha producido un error al enviar la propuesta.');
         }

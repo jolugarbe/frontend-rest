@@ -140,6 +140,7 @@
                 }
             },
             submitHandler: function (form) {
+                $('.preloader').fadeIn('slow');
                 form.submit();
             }
         });

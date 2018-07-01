@@ -19,7 +19,7 @@
                         <div class="card-body">
                             <form id="register-form" method="POST" action="{{URL::to('register-user')}}">
                                 @csrf
-
+                                <input type="hidden" name="password" value="{{str_random(9)}}">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h5 class="text-light fw-400">Datos de la Empresa</h5>

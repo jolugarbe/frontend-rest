@@ -219,6 +219,14 @@
                                             showConfirmButton: false,
                                             timer: 3500
                                         });
+                                    }else if(data.result == "warning"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'warning',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
                                     }else{
                                         swal({
                                             position: 'center',
@@ -278,6 +286,14 @@
                                         swal({
                                             position: 'center',
                                             type: 'success',
+                                            title: data.message,
+                                            showConfirmButton: false,
+                                            timer: 3500
+                                        });
+                                    }else if(data.result == "warning"){
+                                        swal({
+                                            position: 'center',
+                                            type: 'warning',
                                             title: data.message,
                                             showConfirmButton: false,
                                             timer: 3500

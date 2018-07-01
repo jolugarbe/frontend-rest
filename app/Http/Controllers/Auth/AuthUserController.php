@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Jobs\EnviarMail;
 use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,7 +24,25 @@ class AuthUserController extends Controller
         try{
             $result = $this->userRepo->register($request->all());
 
+            $email = $request->input('email');
+            $password = $request->input('password');
+
             if($result['status'] == 200){
+
+                $contenido = \View::make('emails.user-welcome',  compact('password', 'email'))->render();
+                $datos=[
+                    $email,
+                    $email,
+                    'info@cafa.nelium.net',
+                    'CAFA',
+                    'CAFA | Datos de Acceso a la Bolsa de Residuos Reutilizables y Reciclables',
+                    $contenido,
+                    null,
+                    null];
+
+                $mail=new EnviarMail($datos);
+                $this->dispatch($mail);
+
                 return redirect('login')->with('success', 'Empresa registrada correctamente. Hemos enviado los datos de acceso a su email.');
             }else{
                 return redirect()->back()->withInput()->with('error', 'Ha ocurrido un error al registrar su empresa. Disculpe las molestias.');
@@ -98,6 +117,23 @@ class AuthUserController extends Controller
         try{
             $result = $this->userRepo->emailResetPass($request->all());
             $content = json_decode(json_encode($result['body']), true);
+
+            $email = $request->input('email');
+            $token = $content['token'];
+            $contenido = \View::make('emails.reset-password',  compact('token'))->render();
+            $datos=[
+                $email,
+                $email,
+                'info@cafa.nelium.net',
+                'CAFA',
+                'Restaurar contraseña',
+                $contenido,
+                null,
+                null];
+
+            $mail=new EnviarMail($datos);
+            $this->dispatch($mail);
+
             return redirect('login')->with('success', $content['success']);
         }catch (\Exception $exception){
             $response = $exception->getResponse();
