@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="quantity">{{ __('Cantidad') }}</label>
                                 <input id="quantity" type="number" min="1" step="0.1" class="form-control{{ $errors->has('quantity') ? ' is-invalid' : '' }}" name="quantity" value="{{ old('quantity', isset($waste) ? $waste['quantity'] : null) }}" required>
                                 @if ($errors->has('quantity'))
@@ -80,7 +80,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="measured_unit">{{ __('Unidad de medida') }}</label>
                                 <input id="measured_unit" type="text" class="form-control{{ $errors->has('measured_unit') ? ' is-invalid' : '' }}" name="measured_unit" value="{{ old('measured_unit', isset($waste) ? $waste['measured_unit'] : null) }}" placeholder="{{__('m2, Kg, Tm...')}}" required>
                                 @if ($errors->has('measured_unit'))
@@ -90,17 +90,17 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="cer_code">{{ __('Código CER') }}</label>
-                                <input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($waste) ? $waste['cer_code'] : null) }}" required>
-                                @if ($errors->has('cer_code'))
-                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('cer_code') }}</strong>
-                                            </span>
-                                @endif
-                            </div>
+                            {{--<div class="form-group col-md-3">--}}
+                            {{--<label for="cer_code">{{ __('Código CER') }}</label>--}}
+                            {{--<input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($waste) ? $waste['cer_code'] : null) }}" required>--}}
+                            {{--@if ($errors->has('cer_code'))--}}
+                            {{--<span class="invalid-feedback">--}}
+                            {{--<strong>{{ $errors->first('cer_code') }}</strong>--}}
+                            {{--</span>--}}
+                            {{--@endif--}}
+                            {{--</div>--}}
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="frequency">{{__('Frecuencia')}}</label>
                                 <select class="form-control" data-live-search="true" id="frequency" name="frequency" required>
                                     <option value="">Seleccione frecuencia</option>
@@ -114,6 +114,36 @@
                                         </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="cer_code">{{__('Código CER')}}</label>
+                                <select data-provide="selectpicker"  data-lang="es_ES" data-size="10" class="form-control" data-live-search="true" id="cer_code" name="cer_code" required>
+                                    <option value="">Seleccione un código CER</option>
+                                    @foreach($cer_subgroups as $subgroup)
+
+                                        <optgroup class="bg-primary text-white" label="{{$subgroup['code'].' - '.$subgroup['name']}}">
+
+                                            @foreach($cer_codes as $code)
+
+                                                @if($code['cer_subgroup_id'] == $subgroup['id'])
+                                                    <option class="bg-white text-black-50" value="{{$code['id']}}" @if(isset($waste) && $waste['cer_code_id'] == $code['id']) selected="selected" @endif>{{$code['code'].' - '.$code['name']}}</option>
+                                                @endif
+
+                                            @endforeach
+
+                                        </optgroup>
+
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('cer_code'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('cer_code') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
+
                         </div>
 
                         <hr>

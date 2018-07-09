@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-4">
                                     <label for="quantity">{{ __('Cantidad') }}</label>
                                     <input id="quantity" type="number" min="1" step="0.1" class="form-control{{ $errors->has('quantity') ? ' is-invalid' : '' }}" name="quantity" value="{{ old('quantity', isset($waste) ? $waste['quantity'] : null) }}" required readonly="readonly">
                                     @if ($errors->has('quantity'))
@@ -81,7 +81,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-4">
                                     <label for="measured_unit">{{ __('Unidad de medida') }}</label>
                                     <input id="measured_unit" type="text" class="form-control{{ $errors->has('measured_unit') ? ' is-invalid' : '' }}" name="measured_unit" value="{{ old('measured_unit', isset($waste) ? $waste['measured_unit'] : null) }}" placeholder="{{__('m2, Kg, Tm...')}}" required readonly="readonly">
                                     @if ($errors->has('measured_unit'))
@@ -91,23 +91,25 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group col-md-3">
-                                    <label for="cer_code">{{ __('Código CER') }}</label>
-                                    <input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($waste) ? $waste['cer_code'] : null) }}" required readonly="readonly">
-                                    @if ($errors->has('cer_code'))
-                                        <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('cer_code') }}</strong>
-                                            </span>
-                                    @endif
-                                </div>
 
-                                <div class="form-group col-md-3">
+
+                                <div class="form-group col-md-4">
                                     <label for="frequency">{{__('Frecuencia')}}</label>
                                     <input id="frequency" type="text" class="form-control{{ $errors->has('frequency') ? ' is-invalid' : '' }}" name="frequency" value="{{ old('frequency', isset($frequency) ? $frequency : null) }}" required readonly="readonly">
                                     @if ($errors->has('frequency'))
                                         <span class="invalid-feedback">
                                             <strong>{{ $errors->first('frequency') }}</strong>
                                         </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="cer_code">{{ __('Código CER') }}</label>
+                                    <input id="cer_code" type="text" class="form-control{{ $errors->has('cer_code') ? ' is-invalid' : '' }}" name="cer_code" value="{{ old('cer_code', isset($cer_code) ? $cer_code['code'].' - '.$cer_code['name'] : null) }}" required readonly="readonly">
+                                    @if ($errors->has('cer_code'))
+                                        <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('cer_code') }}</strong>
+                                            </span>
                                     @endif
                                 </div>
                             </div>

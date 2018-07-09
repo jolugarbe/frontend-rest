@@ -45,14 +45,14 @@
                 <div class="card-content" style="">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_name">Nombre</label>
                                     <input class="form-control filters" id="f_name" name="f_name" type="text">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_waste_type">{{__('Tipo de residuo')}}</label>
                                     <select class="form-control show-tick filters" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
@@ -64,26 +64,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="f_cer_code">Código CER</label>
-                                    <input class="form-control filters" id="f_cer_code" name="f_cer_code" type="text">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-
-
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="f_generation_date">Fecha de Generación</label>
                                     <input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="f_dangerous">{{__('Peligrosidad')}}</label>
                                     <select class="form-control show-tick filters" id="f_dangerous" name="f_dangerous" data-width="100%"  data-dropup-auto="false">
@@ -94,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="f_ad_type">{{__('Tipo de publicación')}}</label>
                                     <select class="form-control show-tick filters" id="f_ad_type" name="f_ad_type" data-width="100%"  data-dropup-auto="false">
@@ -105,6 +93,33 @@
                                     </select>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <label for="f_cer_code">{{__('Código CER')}}</label>
+                                <select data-provide="selectpicker"  data-lang="es_ES" data-size="8" class="form-control filters" data-live-search="true" id="f_cer_code" name="f_cer_code" required>
+                                    <option value="">Todos</option>
+                                    @foreach($cer_subgroups as $subgroup)
+
+                                        <optgroup class="bg-primary text-white" label="{{$subgroup['code'].' - '.$subgroup['name']}}">
+
+                                            @foreach($cer_codes as $code)
+
+                                                @if($code['cer_subgroup_id'] == $subgroup['id'])
+                                                    <option class="bg-white text-black-50" value="{{$code['id']}}" @if(isset($waste) && $waste['cer_code_id'] == $code['id']) selected="selected" @endif>{{$code['code'].' - '.$code['name']}}</option>
+                                                @endif
+
+                                            @endforeach
+
+                                        </optgroup>
+
+                                    @endforeach
+                                </select>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -120,6 +135,7 @@
                         <tr>
                             <th>{{__('Nombre')}}</th>
                             <th>{{__('Cantidad')}}</th>
+                            <th>{{__('Tipo')}}</th>
                             <th>{{__('Código CER')}}</th>
                             <th>{{__('Fecha de Generación')}}</th>
                             <th>{{__('Peligroso')}}</th>
@@ -168,6 +184,7 @@
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
                     { "data": "quantity" },
+                    { "data": "type", "visible": false },
                     { "data": "cer_code" },
                     { "data": "generation_date" },
                     { "data": "dangerous" },

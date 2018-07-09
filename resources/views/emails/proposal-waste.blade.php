@@ -156,7 +156,7 @@
                 </tr>
                 <!-- COPY -->
                 <tr>
-                    <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+                    <td bgcolor="#f4f4f4" align="center" style="padding: 0px 0px 0px 0px;">
                         <!--[if (gte mso 9)|(IE)]>
                         <table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
                             <tr>

@@ -50,14 +50,21 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="f_cer_code">Código CER</label>
-                                    <input class="form-control filters" id="f_cer_code" name="f_cer_code" type="text">
+                                    <label for="f_pickup_date">Fecha de Disponibilidad</label>
+                                    <input class="form-control filters" id="f_pickup_date" name="f_pickup_date" type="text">
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="f_generation_date">Fecha de Generación</label>
+                                    <input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
                                 <label for="f_dangerous">{{__('Peligroso')}}</label>
                                 <select class="form-control filters" data-live-search="true" id="f_dangerous" name="f_dangerous" required>
                                     <option value="all">Todos</option>
@@ -75,12 +82,26 @@
 
                         <div class="row">
 
+                            <div class="col-md-8">
+                                <label for="f_cer_code">{{__('Código CER')}}</label>
+                                <select data-provide="selectpicker"  data-lang="es_ES" data-size="8" class="form-control filters" data-live-search="true" id="f_cer_code" name="f_cer_code" required>
+                                    <option value="">Todos</option>
+                                    @foreach($cer_subgroups as $subgroup)
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="f_pickup_date">Fecha de Disponibilidad</label>
-                                    <input class="form-control filters" id="f_pickup_date" name="f_pickup_date" type="text">
-                                </div>
+                                        <optgroup class="bg-primary text-white" label="{{$subgroup['code'].' - '.$subgroup['name']}}">
+
+                                            @foreach($cer_codes as $code)
+
+                                                @if($code['cer_subgroup_id'] == $subgroup['id'])
+                                                    <option class="bg-white text-black-50" value="{{$code['id']}}" @if(isset($waste) && $waste['cer_code_id'] == $code['id']) selected="selected" @endif>{{$code['code'].' - '.$code['name']}}</option>
+                                                @endif
+
+                                            @endforeach
+
+                                        </optgroup>
+
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="col-md-4">
@@ -90,12 +111,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="f_generation_date">Fecha de Generación</label>
-                                    <input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

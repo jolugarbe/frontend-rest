@@ -40,14 +40,14 @@
                 <div class="card-content" style="">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_name">Nombre</label>
                                     <input class="form-control filters" id="f_name" name="f_name" type="text">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_waste_type">{{__('Tipo de residuo')}}</label>
                                     <select class="form-control show-tick filters" id="f_waste_type" name="f_waste_type" data-width="100%"  data-dropup-auto="false">
@@ -59,10 +59,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="f_cer_code">Código CER</label>
-                                    <input class="form-control filters" id="f_cer_code" name="f_cer_code" type="text">
+                                    <label for="f_pickup_date">Fecha de Disponibilidad</label>
+                                    <input class="form-control filters" id="f_pickup_date" name="f_pickup_date" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="f_request_date">Fecha de Solicitud</label>
+                                    <input class="form-control filters" id="f_request_date" name="f_request_date" type="text">
                                 </div>
                             </div>
 
@@ -70,27 +77,35 @@
 
                         <div class="row">
 
+                            <div class="col-md-9">
+                                <label for="f_cer_code">{{__('Código CER')}}</label>
+                                <select data-provide="selectpicker"  data-lang="es_ES" data-size="8" class="form-control filters" data-live-search="true" id="f_cer_code" name="f_cer_code" required>
+                                    <option value="">Todos</option>
+                                    @foreach($cer_subgroups as $subgroup)
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="f_pickup_date">Fecha de Disponibilidad</label>
-                                    <input class="form-control filters" id="f_pickup_date" name="f_pickup_date" type="text">
-                                </div>
+                                        <optgroup class="bg-primary text-white" label="{{$subgroup['code'].' - '.$subgroup['name']}}">
+
+                                            @foreach($cer_codes as $code)
+
+                                                @if($code['cer_subgroup_id'] == $subgroup['id'])
+                                                    <option class="bg-white text-black-50" value="{{$code['id']}}" @if(isset($waste) && $waste['cer_code_id'] == $code['id']) selected="selected" @endif>{{$code['code'].' - '.$code['name']}}</option>
+                                                @endif
+
+                                            @endforeach
+
+                                        </optgroup>
+
+                                    @endforeach
+                                </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_request_name">Empresa Solicitante</label>
                                     <input class="form-control filters" id="f_request_name" name="f_request_name" type="text">
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="f_request_date">Fecha de Solicitud</label>
-                                    <input class="form-control filters" id="f_request_date" name="f_request_date" type="text">
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,7 +183,7 @@
                 },
                 columns: [
                     { "data": "name", "responsivePriority": 1, "targets": 0 },
-                    { "data": "type", "responsivePriority": 9},
+                    { "data": "type", "visible": false},
                     { "data": "quantity", "responsivePriority": 5 },
                     { "data": "cer_code", "responsivePriority": 4 },
                     { "data": "pickup_date", "responsivePriority": 8 },
@@ -263,7 +278,7 @@
                     $('.decline-request').click(function () {
                         var transfer_id = $(this).data('transfer_id');
                         swal({
-                            title: 'Aceptar',
+                            title: 'Rechazar',
                             text: "¿Estás seguro de rechazar esta solicitud?",
                             type: 'warning',
                             showCancelButton: true,

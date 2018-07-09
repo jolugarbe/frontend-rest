@@ -43,7 +43,10 @@ class WasteController extends Controller
                 $frequencies = $content['frequencies'];
                 $provinces = $content['provinces'];
                 $localities = $content['localities'];
-                return view('site.waste/create-edit-waste', compact('ads', 'types', 'frequencies', 'provinces', 'localities'));
+                $cer_groups = $content['cer_groups'];
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste/create-edit-waste', compact('ads', 'types', 'frequencies', 'provinces', 'localities', 'cer_groups', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar crear un residuo. Disculpe las molestias.');
@@ -134,7 +137,9 @@ class WasteController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 $ads = $content['ads'];
                 $types = $content['types'];
-                return view('site.waste.user-offers-list', compact('ads', 'types'));
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste.user-offers-list', compact('ads', 'types', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al consultar sus residuos publicados. Disculpe las molestias.');
@@ -161,7 +166,9 @@ class WasteController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 $ads = $content['ads'];
                 $types = $content['types'];
-                return view('site.waste.available-list', compact('ads', 'types'));
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste.available-list', compact('ads', 'types', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al consultar los residuos disponibles. Disculpe las molestias.');
@@ -189,7 +196,9 @@ class WasteController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 $ads = $content['ads'];
                 $types = $content['types'];
-                return view('site.waste.demand-list', compact('ads', 'types'));
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste.demand-list', compact('ads', 'types', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al consultar los residuos demandados. Disculpe las molestias.');
@@ -218,7 +227,9 @@ class WasteController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 $ads = $content['ads'];
                 $types = $content['types'];
-                return view('site.waste.user-transfers-list', compact('ads', 'types'));
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste.user-transfers-list', compact('ads', 'types', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al consultar sus residuos cedidos. Disculpe las molestias.');
@@ -247,7 +258,9 @@ class WasteController extends Controller
                 $content = json_decode(json_encode($result['body']), true);
                 $ads = $content['ads'];
                 $types = $content['types'];
-                return view('site.waste.user-requests-list', compact('ads', 'types'));
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
+                return view('site.waste.user-requests-list', compact('ads', 'types', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al consultar sus residuos solicitados. Disculpe las molestias.');
@@ -278,9 +291,11 @@ class WasteController extends Controller
                 $waste = $content['waste'];
                 $address = $content['address'];
                 $locality = $content['locality'];
+                $cer_subgroups = $content['cer_subgroups'];
+                $cer_codes = $content['cer_codes'];
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/create-edit-waste', compact('ads', 'types', 'frequencies', 'provinces', 'localities', 'waste', 'address', 'locality'));
+                return view('site.waste/create-edit-waste', compact('ads', 'types', 'frequencies', 'provinces', 'localities', 'waste', 'address', 'locality', 'cer_subgroups', 'cer_codes'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar editar el residuo. Disculpe las molestias.');
@@ -531,8 +546,8 @@ class WasteController extends Controller
                 return Carbon::createFromFormat('Y-m-d', $waste->request_date)->format('d/m/Y');
             })
             ->addColumn('action', function ($waste) {
-                $url_show_transfer = URL::to('waste/user/show-transfer/'.$waste->transfer_id);
-                $url_show_transfer_pdf = URL::to('waste/user/show-transfer/pdf/'.$waste->transfer_id);
+                $url_show_request = URL::to('waste/user/show-request/'.$waste->transfer_id);
+                $url_show_request_pdf = URL::to('waste/user/show-request/pdf/'.$waste->transfer_id);
 
                 $links = '';
 
@@ -540,8 +555,8 @@ class WasteController extends Controller
                     $links .= '<a class="btn btn-danger cancel-request m-1 text-white" data-transfer_id="'.$waste->transfer_id.'" data-toggle="tooltip" data-placement="top" title="Cancelar solicitud"><i class="fa fa-close" aria-hidden="true"></i></a>';
                 }
 
-                $links .= '<a target="_blank" href="'.$url_show_transfer.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                $links .= '<a href="'.$url_show_transfer_pdf.'" class="btn btn-purple m-1" data-toggle="tooltip" data-placement="top" title="Descargar solicitud"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>';
+                $links .= '<a target="_blank" href="'.$url_show_request.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_request_pdf.'" class="btn btn-purple m-1" data-toggle="tooltip" data-placement="top" title="Descargar solicitud"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>';
 
                 return $links;
             })
@@ -612,10 +627,11 @@ class WasteController extends Controller
                 $waste = $content['waste'];
                 $address = $content['address'];
                 $locality = $content['locality'];
+                $cer_code = $content['cer_code'];
                 $show = true;
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/show-waste', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'show'));
+                return view('site.waste/show-waste', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'show', 'cer_code'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar el residuo. Disculpe las molestias.');
@@ -658,6 +674,7 @@ class WasteController extends Controller
                 $province = $content['province'];
 //                $localities = $content['localities'];
                 $waste = $content['waste'];
+                $cer_code = $content['cer_code'];
                 $address = $content['address'];
                 $locality = $content['locality'];
                 $is_transfer = true;
@@ -678,7 +695,7 @@ class WasteController extends Controller
                 $status_transfer_name = $content['status_transfer_name'];
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name'));
+                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name', 'cer_code'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la cesión del residuo. Disculpe las molestias.');
@@ -710,6 +727,7 @@ class WasteController extends Controller
                 $province = $content['province'];
 //                $localities = $content['localities'];
                 $waste = $content['waste'];
+                $cer_code = $content['cer_code'];
                 $address = $content['address'];
                 $locality = $content['locality'];
                 $is_request = true;
@@ -730,7 +748,7 @@ class WasteController extends Controller
                 $status_transfer_name = $content['status_transfer_name'];
 
                 // Compruebo que el residuo sea del usuario
-                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name'));
+                return view('site.waste/show-transfer-request', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name', 'cer_code'));
 
             }else{
                 return redirect()->back()->with('error', 'Ha ocurrido un error al intentar visualizar la solicitud del residuo. Disculpe las molestias.');
@@ -762,6 +780,7 @@ class WasteController extends Controller
                 $province = $content['province'];
 //                $localities = $content['localities'];
                 $waste = $content['waste'];
+                $cer_code = $content['cer_code'];
                 $address = $content['address'];
                 $locality = $content['locality'];
                 $is_request = true;
@@ -781,7 +800,7 @@ class WasteController extends Controller
                 $status_transfer_id = $content['status_transfer_id'];
                 $status_transfer_name = $content['status_transfer_name'];
 
-                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name'))->setOption('viewport-size', '1366x1024');
+                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name', 'cer_code'))->setOption('viewport-size', '1366x1024');
 //                return view('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_request', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id'));
                 return $pdf->download('Solicitud_de_Residuo.pdf');
 
@@ -816,6 +835,7 @@ class WasteController extends Controller
                 $province = $content['province'];
 //                $localities = $content['localities'];
                 $waste = $content['waste'];
+                $cer_code = $content['cer_code'];
                 $address = $content['address'];
                 $locality = $content['locality'];
                 $is_transfer = true;
@@ -835,7 +855,7 @@ class WasteController extends Controller
                 $status_transfer_id = $content['status_transfer_id'];
                 $status_transfer_name = $content['status_transfer_name'];
 
-                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name'))->setOption('viewport-size', '1366x1024');
+                $pdf = \PDF::loadView('site.waste/show-transfer-request-pdf', compact('ads', 'type', 'frequency', 'province', 'waste', 'address', 'locality', 'is_transfer', 'owner_user', 'owner_activity', 'owner_address', 'owner_locality', 'owner_province', 'request_user', 'request_activity', 'request_address', 'request_locality', 'request_province', 'transfer_id', 'status_transfer_id', 'status_transfer_name', 'cer_code'))->setOption('viewport-size', '1366x1024');
                 return $pdf->download('Solicitud_de_Residuo.pdf');
 
             }else{
