@@ -41,7 +41,7 @@
                                 <h4 class="card-title bg-info text-white">Usuarios</h4>
                                 <div class="card-body text-center">
                                     <h1 class="card-title">{{$total_users}}</h1>
-                                    <a href="{{URL::to('waste/user/published')}}" class="btn btn-secondary w-full">Consultar</a>
+                                    <a href="{{URL::to('admin/users/list')}}" class="btn btn-secondary w-full">Consultar</a>
                                 </div>
                             </div>
                         </div>

@@ -64,14 +64,14 @@
             <li class="menu-category">Mi Perfil</li>
 
             <li class="menu-item active">
-                <a class="menu-link" href="{{URL::to('/home')}}">
+                <a class="menu-link" href="{{URL::to('/admin/dashboard')}}">
                     <span class="icon fa fa-home"></span>
                     <span class="title">Panel de Control</span>
                 </a>
             </li>
 
             <li class="menu-item">
-                <a class="menu-link" href="{{URL::to('user/profile')}}">
+                <a class="menu-link" href="{{URL::to('admin/profile')}}">
                     <span class="icon fa fa-user"></span>
                     <span class="title">Mi Perfil</span>
                 </a>
@@ -80,7 +80,7 @@
             <li class="menu-category">Usuarios</li>
 
             <li class="menu-item">
-                <a class="menu-link" href="{{URL::to('admin/users')}}">
+                <a class="menu-link" href="{{URL::to('admin/users/list')}}">
                     <span class="icon fa fa-user"></span>
                     <span class="title">Empresas</span>
                 </a>

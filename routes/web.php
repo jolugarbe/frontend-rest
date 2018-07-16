@@ -75,6 +75,16 @@ Route::middleware(['cookie'])->group(function () {
 
             Route::get('dashboard', 'AdminController@dashboard')->name('admin.dashboard');
 
+            Route::prefix('users')->group(function () {
+                Route::get('list', 'AdminController@getUsersList');
+                Route::get('create', 'AdminController@createUser');
+                Route::post('create', 'AdminController@postUserCreate');
+                Route::get('update/{id}', 'AdminController@updateUser');
+                Route::post('update', 'AdminController@postUserUpdate');
+                Route::post('list-data', 'AdminController@postUsersListData');
+                Route::post('delete', 'AdminController@postUserDelete');
+
+            });
         });
     });
 

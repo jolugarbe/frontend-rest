@@ -90,4 +90,34 @@ class UserRepo extends GuzzleHttpRequest
         $response = $this->post('admin/dashboard-data', false);
         return $response;
     }
+
+    public function usersList($data)
+    {
+        $response = $this->post('admin/users/list-data', $data);
+        return $response;
+    }
+
+    public function userDataForCreate()
+    {
+        $response = $this->get('users/create-data');
+        return $response;
+    }
+
+    public function userData($data)
+    {
+        $response = $this->post('admin/users/user-data', $data);
+        return $response;
+    }
+
+    public function updateFromAdmin($data)
+    {
+        $response = $this->post('admin/users/update', $data);
+        return $response;
+    }
+
+    public function deleteUser($data)
+    {
+        $response = $this->post('admin/users/delete', $data);
+        return $response;
+    }
 }
