@@ -103,4 +103,9 @@ class WasteRepo extends GuzzleHttpRequest
         $response = $this->post('waste/demand/acquired', $data);
         return $response;
     }
+
+    public function allTransfersWasteData($data){
+        $response = $this->post('admin/waste/transfers-data', $data);
+        return $response;
+    }
 }

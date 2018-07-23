@@ -74,6 +74,9 @@ Route::middleware(['cookie'])->group(function () {
         Route::prefix('admin')->group(function () {
 
             Route::get('dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+            Route::get('profile', 'AdminController@getProfile');
+            Route::post('profile/update', 'AdminController@postUpdateProfile');
+            Route::post('transfer/delete', 'AdminController@postDeleteTransfer');
 
             Route::prefix('users')->group(function () {
                 Route::get('list', 'AdminController@getUsersList');
@@ -83,7 +86,21 @@ Route::middleware(['cookie'])->group(function () {
                 Route::post('update', 'AdminController@postUserUpdate');
                 Route::post('list-data', 'AdminController@postUsersListData');
                 Route::post('delete', 'AdminController@postUserDelete');
+                Route::get('show/{id}', 'AdminController@getShowUser');
 
+            });
+
+            Route::prefix('waste')->group(function () {
+                Route::get('available-list', 'AdminController@getWasteAvailableList');
+                Route::post('available-data', 'AdminController@postWasteAvailableData');
+                Route::get('demand-list', 'AdminController@getWasteDemandList');
+                Route::post('demand-data', 'AdminController@postWasteDemandData');
+                Route::get('show/{id}', 'AdminController@getShowWaste');
+                Route::get('edit/{id}', 'AdminController@getEditWaste');
+                Route::post('update', 'AdminController@postUpdateWaste');
+                Route::get('transfers-requests/list', 'AdminController@getTransfersRequestList');
+                Route::post('transfers-data', 'AdminController@postTransfersData');
+                Route::get('show-transfer/{id}', 'AdminController@getShowTransfer');
             });
         });
     });

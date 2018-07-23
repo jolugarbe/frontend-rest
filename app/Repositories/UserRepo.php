@@ -120,4 +120,10 @@ class UserRepo extends GuzzleHttpRequest
         $response = $this->post('admin/users/delete', $data);
         return $response;
     }
+
+    public function updateAdmin($data)
+    {
+        $response = $this->post('admin/profile/update', $data);
+        return $response;
+    }
 }

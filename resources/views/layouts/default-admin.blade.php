@@ -32,6 +32,13 @@
     <!-- Bootstrap SelectPicker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 
+    <style>
+
+        .sidebar-header{
+            background-color: transparent; !important;
+        }
+
+    </style>
     @yield('styles')
 
 </head>
@@ -91,21 +98,21 @@
             <li class="menu-category">Bolsa Residuos</li>
 
             <li class="menu-item">
-                <a class="menu-link" href="{{URL::to('admin/waste/transfers-requests')}}">
+                <a class="menu-link" href="{{URL::to('admin/waste/transfers-requests/list')}}">
                     <span class="icon ti-layout"></span>
                     <span class="title">Solicitudes</span>
                 </a>
             </li>
 
             <li class="menu-item">
-                <a class="menu-link" href="{{URL::to('admin/waste/available')}}">
+                <a class="menu-link" href="{{URL::to('admin/waste/available-list')}}">
                     <span class="icon ti-layout"></span>
                     <span class="title">Disponibles</span>
                 </a>
             </li>
 
             <li class="menu-item">
-                <a class="menu-link" href="{{URL::to('admin/waste/demand')}}">
+                <a class="menu-link" href="{{URL::to('admin/waste/demand-list')}}">
                     <span class="icon ti-layout"></span>
                     <span class="title">Demandados</span>
                 </a>

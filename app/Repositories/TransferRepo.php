@@ -26,4 +26,9 @@ class TransferRepo extends GuzzleHttpRequest
         $response = $this->post('transfer/cancel', $data);
         return $response;
     }
+
+    public function deleteTransfer($data){
+        $response = $this->post('admin/transfer/delete', $data);
+        return $response;
+    }
 }

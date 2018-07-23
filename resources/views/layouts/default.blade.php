@@ -32,6 +32,13 @@
     <!-- Bootstrap SelectPicker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 
+    <style>
+
+        .sidebar-header{
+            background-color: transparent; !important;
+        }
+
+    </style>
     @yield('styles')
 
 </head>
