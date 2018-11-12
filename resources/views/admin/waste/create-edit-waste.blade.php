@@ -325,7 +325,9 @@
                             <div class="col-md-12">
                                 <h5 class="text-light fw-400">Publicación</h5>
                             </div>
-                            <div class="form-group col-md-4">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
                                 <label for="ad_type">{{__('Tipo de anuncio')}}</label>
                                 <select class="form-control" data-live-search="true" id="ad_type" name="ad_type" required>
                                     <option value="">Seleccione una opción</option>
@@ -336,6 +338,15 @@
                                 @if ($errors->has('ad_type'))
                                     <span class="invalid-feedback">
                                             <strong>{{ $errors->first('ad_type') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="created_at">{{ Lang::get('Fecha de registro') }}</label>
+                                <input id="created_at" type="text" class="form-control{{ $errors->has('created_at') ? ' is-invalid' : '' }}" name="created_at" value="{{ old('created_at', isset($waste) && $waste['created_at'] ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $waste['created_at'])->format('d/m/Y') : null) }}">
+                                @if ($errors->has('created_at'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('created_at') }}</strong>
                                         </span>
                                 @endif
                             </div>
@@ -426,6 +437,9 @@
                     },
                     "ad_type": {
                         required: true
+                    },
+                    "created_at": {
+                        required: true
                     }
                 },
                 submitHandler: function (form) {
@@ -451,7 +465,7 @@
                 $('#locality').empty().append(options);
             });
 
-            $('#generation_date, #pickup_date').datetimepicker({
+            $('#generation_date, #pickup_date, #created_at').datetimepicker({
                 locale: 'es',
                 format: 'DD/MM/YYYY'
             });

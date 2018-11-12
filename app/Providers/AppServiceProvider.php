@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('GuzzleHttp\Client',function(){
             return new Client([
-                'base_uri' => 'http://backend.local/api/',
+                'base_uri' => 'backend-rest.test/api/',
             ]);
         });
     }
