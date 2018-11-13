@@ -274,6 +274,25 @@
                                 </div>
                             </div>
 
+                            <hr>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="text-light fw-400">Publicación</h5>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="publication_date">{{ Lang::get('Fecha de publicación') }}</label>
+                                    <input id="publication_date" type="text" class="form-control{{ $errors->has('publication_date') ? ' is-invalid' : '' }}" name="publication_date" value="{{ old('publication_date', isset($waste) ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $waste['created_at'])->format('d/m/Y') : null) }}" required readonly="readonly">
+                                    @if ($errors->has('publication_date'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('publication_date') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>

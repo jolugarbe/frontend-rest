@@ -124,7 +124,7 @@ class AdminController extends Controller
                 $datos=[
                     $email,
                     $email,
-                    'info@cafa.nelium.net',
+                    'admin@bolsacafa.com',
                     'CAFA',
                     'CAFA | Datos de Acceso a la Bolsa de Residuos Reutilizables y Reciclables',
                     $contenido,
@@ -297,8 +297,11 @@ class AdminController extends Controller
             ->editColumn('pickup_date', function ($waste) {
                 return Carbon::createFromFormat('Y-m-d', $waste->pickup_date)->format('d/m/Y');
             })
-            ->editColumn('generation_date', function ($waste) {
-                return Carbon::createFromFormat('Y-m-d', $waste->generation_date)->format('d/m/Y');
+//            ->editColumn('generation_date', function ($waste) {
+//                return Carbon::createFromFormat('Y-m-d', $waste->generation_date)->format('d/m/Y');
+//            })
+            ->editColumn('publication_date', function ($waste) {
+                return Carbon::createFromFormat('Y-m-d H:i:s', $waste->publication_date)->format('d/m/Y');
             })
             ->editColumn('dangerous', function ($waste) {
                 return $waste->dangerous == 1 ? "SÍ" : "NO";
@@ -307,8 +310,8 @@ class AdminController extends Controller
                 $url_edit_waste = URL::to('admin/waste/edit/'.$waste->id);
                 $url_show_waste = URL::to('admin/waste/show/'.$waste->id);
                 $links = '';
-                $links .= '<a target="_blank" href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                $links .= '<a target="_blank" href="'.$url_edit_waste.'" class="btn btn-success request-waste text-white" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Editar residuo"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_edit_waste.'" class="btn btn-success request-waste text-white" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Editar residuo"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
 
                 $links .= '<a data-waste_id="'.$waste->id.'" class="delete-waste btn btn-danger m-1 text-white"  data-toggle="tooltip" data-placement="top" title="Eliminar residuo"><i class="fa fa-trash" aria-hidden="true"></i></a>';
 
@@ -515,8 +518,8 @@ class AdminController extends Controller
                 $url_edit_waste = URL::to('admin/waste/edit/'.$waste->id);
                 $url_show_waste = URL::to('admin/waste/show/'.$waste->id);
                 $links = '';
-                $links .= '<a target="_blank" href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                $links .= '<a target="_blank" href="'.$url_edit_waste.'" class="btn btn-success request-waste text-white" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Editar residuo"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_waste.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver residuo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_edit_waste.'" class="btn btn-success request-waste text-white" data-waste_id="'.$waste->id.'" data-toggle="tooltip" data-placement="top" title="Editar residuo"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
 
                 $links .= '<a data-waste_id="'.$waste->id.'" class="delete-waste btn btn-danger m-1 text-white"  data-toggle="tooltip" data-placement="top" title="Eliminar residuo"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                 return $links;
@@ -608,7 +611,7 @@ class AdminController extends Controller
 
                 $links = '';
 
-                $links .= '<a target="_blank" href="'.$url_show_transfer.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                $links .= '<a href="'.$url_show_transfer.'" class="btn btn-info m-1" data-toggle="tooltip" data-placement="top" title="Ver solicitud"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                 $links .= '<a href="'.$url_show_transfer_pdf.'" class="btn btn-purple m-1" data-toggle="tooltip" data-placement="top" title="Descargar solicitud"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>';
                 $links .= '<a class="btn btn-danger delete-transfer m-1 text-white" data-transfer_id="'.$waste->transfer_id.'" data-toggle="tooltip" data-placement="top" title="Eliminar solicitud"><i class="fa fa-trash" aria-hidden="true"></i></a>';
 

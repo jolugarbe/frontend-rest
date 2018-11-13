@@ -57,25 +57,24 @@
                                 </div>
                             </div>
 
+                            {{--<div class="col-md-2">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<label for="f_generation_date">Fecha de Generación</label>--}}
+                                    {{--<input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="f_generation_date">Fecha de Generación</label>
-                                    <input class="form-control filters" id="f_generation_date" name="f_generation_date" type="text">
+                                    <label for="f_publication_date_1">Publicados desde:</label>
+                                    <input class="form-control filters" id="f_publication_date_1" name="f_publication_date_1" type="text">
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-2">
-                                <label for="f_dangerous">{{__('Peligroso')}}</label>
-                                <select class="form-control filters" data-live-search="true" id="f_dangerous" name="f_dangerous" required>
-                                    <option value="all">Todos</option>
-                                    <option value="1">{{__('SÍ')}}</option>
-                                    <option value="0">{{__('NO')}}</option>
-                                </select>
-                                @if ($errors->has('f_dangerous'))
-                                    <span class="invalid-feedback">
-                                            <strong>{{ $errors->first('f_dangerous') }}</strong>
-                                        </span>
-                                @endif
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="f_publication_date_2">Publicados hasta:</label>
+                                    <input class="form-control filters" id="f_publication_date_2" name="f_publication_date_2" type="text">
+                                </div>
                             </div>
 
                         </div>
@@ -104,11 +103,25 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="f_creator_name">Empresa Propietaria</label>
                                     <input class="form-control filters" id="f_creator_name" name="f_creator_name" type="text">
                                 </div>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="f_dangerous">{{__('Peligroso')}}</label>
+                                <select class="form-control filters" data-live-search="true" id="f_dangerous" name="f_dangerous" required>
+                                    <option value="all">Todos</option>
+                                    <option value="1">{{__('SÍ')}}</option>
+                                    <option value="0">{{__('NO')}}</option>
+                                </select>
+                                @if ($errors->has('f_dangerous'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('f_dangerous') }}</strong>
+                                        </span>
+                                @endif
                             </div>
 
 
@@ -129,7 +142,8 @@
                             <th>{{__('Tipo de Residuo')}}</th>
                             <th>{{__('Cantidad')}}</th>
                             <th>{{__('Código CER')}}</th>
-                            <th>{{__('Fecha de Generación')}}</th>
+{{--                            <th>{{__('Fecha de Generación')}}</th>--}}
+                            <th>{{__('Fecha de Publicación')}}</th>
                             <th>{{__('Empresa Propietaria')}}</th>
                             <th>{{__('Fecha de Disponibilidad')}}</th>
                             <th>{{__('Peligroso')}}</th>
@@ -187,7 +201,9 @@
                         d.f_dangerous = $('#f_dangerous').val();
                         d.f_pickup_date = $('#f_pickup_date').val();
                         d.f_creator_name = $('#f_creator_name').val();
-                        d.f_generation_date = $('#f_generation_date').val();
+                        d.f_publication_date_1 = $('#f_publication_date_1').val();
+                        d.f_publication_date_2 = $('#f_publication_date_2').val();
+                        // d.f_generation_date = $('#f_generation_date').val();
                     }
                 },
                 columns: [
@@ -195,7 +211,8 @@
                     { "data": "type", "responsivePriority": 9, "visible" : false},
                     { "data": "quantity", "responsivePriority": 3},
                     { "data": "cer_code", "responsivePriority": 4 },
-                    { "data": "generation_date", "responsivePriority": 7 },
+                    // { "data": "generation_date", "responsivePriority": 7 },
+                    { "data": "publication_date", "responsivePriority": 7 },
                     { "data": "creator_name", "responsivePriority": 5 },
                     { "data": "pickup_date", "responsivePriority": 6 },
                     { "data": "dangerous", "responsivePriority": 8 },
@@ -281,7 +298,7 @@
 
             });
 
-            $('#f_pickup_date, #f_generation_date').datetimepicker({
+            $('#f_pickup_date, #f_generation_date, #f_publication_date_1, #f_publication_date_2').datetimepicker({
                 locale: 'es',
                 format: 'DD/MM/YYYY'
             });
