@@ -2,8 +2,8 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-    <script src="{{URL::to('vendor/typeahead/typeahead.jquery.min.js')}}"></script>
-    <script src="{{URL::to('vendor/typeahead/bloodhound.min.js')}}"></script>
+{{--    <script src="{{URL::to('vendor/typeahead/typeahead.jquery.min.js')}}"></script>--}}
+{{--    <script src="{{URL::to('vendor/typeahead/bloodhound.min.js')}}"></script>--}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Bolsa de residuos reutilizables y reciclables">
@@ -50,8 +50,8 @@
 <header class="topbar topbar-expand-lg">
     <div class="container">
         <div class="topbar-left">
-            <span class="topbar-btn topbar-menu-toggler"><i>☰</i></span>
-            <span class="topbar-brand"><img src="{{URL::to('images/theme/full-logo-black-2.png')}}" alt="logo"></span>
+            {{--<span class="topbar-btn topbar-menu-toggler"><i>☰</i></span>--}}
+            <span class="topbar-brand"><a href="{{URL::to('/')}}"><img src="{{URL::to('images/theme/full-logo-black-2.png')}}" alt="logo"></a></span>
             {{--<span class="topbar-brand"><img src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></span>--}}
 
             <div class="topbar-divider d-none d-xl-block"></div>
@@ -132,7 +132,7 @@
                 @if(Cookie::get('user_token'))
                     <li class="dropdown show">
                         <span class="topbar-btn" data-toggle="dropdown" aria-expanded="true"><i class="ti-user"></i></span>
-                        <div class="dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 65px; left: -120px;">
+                        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 65px; left: -120px;">
                             <a class="dropdown-item" href="{{ route('home') }}"><i class="ti-settings"></i> Panel de control</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="ti-power-off"></i> Cerrar sesión</a>
                             <form id="logout-form" action="{{ route('logout_user') }}" method="POST" style="display: none;">
@@ -143,7 +143,7 @@
                 @else
                     <li class="dropdown show">
                         <span class="topbar-btn" data-toggle="dropdown" aria-expanded="true"><i class="ti-user"></i></span>
-                        <div class="dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 65px; left: -120px;">
+                        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: top, left; top: 65px; left: -120px;">
                             <a class="dropdown-item" href="{{ route('login') }}"><i class="ti-user"></i> Acceder</a>
                             <a class="dropdown-item" href="{{ route('register') }}"><i class="ti-email"></i> Registrarme</a>
                         </div>
@@ -178,8 +178,9 @@
     <footer class="site-footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 text-center text-md-left">
-                    <a href="http://www.dipusevilla.es/" target="_parent"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+                <div class="col-md-6 text-center text-md-left d-flex align-items-center">
+                    <a href="http://www.dipusevilla.es/" target="_blank"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+                    <a class="ml-10" href="http://www.dipusevilla.es/" target="_blank"><strong>Subvencionado por la Diputación de Sevilla.</strong></a>
                     {{--<span><strong>Diputación de Sevilla.</strong><br>Avda. Menéndez y Pelayo, 32.<br>41071 Sevilla, España.</span>--}}
                 </div>
 

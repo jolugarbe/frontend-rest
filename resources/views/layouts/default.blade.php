@@ -187,8 +187,9 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="row">
-            <div class="col-md-6 text-center text-md-left">
-                <a href="http://www.dipusevilla.es/" target="_parent"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+            <div class="col-md-6 text-center text-md-left d-flex align-items-center">
+                <a href="http://www.dipusevilla.es/" target="_blank"><img class="img-responsive" style="height: 65px; width: 65px" src="{{URL::to('images/diputacion-sevilla.png')}}" alt="logo"></a>
+                <a class="ml-10" href="http://www.dipusevilla.es/" target="_blank"><strong>Subvencionado por la Diputación de Sevilla.</strong></a>
                 {{--<p class="text-center text-md-left">Copyright © 2018 <a target="_blank" href="http://centrocafa.com/">CAFA</a>. Todos los derechos reservados.</p>--}}
             </div>
 
