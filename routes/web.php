@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('politica-privacidad', function () {
+    return view('privacidad');
+});
+
+Route::get('preguntas-frecuentes', function () {
+    return view('faq');
+});
 
 Route::post('register-user', 'Auth\AuthUserController@postRegister');
 Route::post('login-user', 'Auth\AuthUserController@postLogin');
